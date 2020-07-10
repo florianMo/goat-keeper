@@ -4,7 +4,9 @@ import { Button, Col, Form, Input, InputNumber, Row, Space, Typography } from 'a
 import dayjs from 'dayjs';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Team } from 'src/models/team';
+import { buildUrl, Urls } from 'src/routes';
 import { addGame } from 'src/store/slices/mainSlice';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,10 +16,12 @@ import Topbar from './Topbar';
 const { Title } = Typography;
 
 const NewGame = (): JSX.Element => {
-  const [form] = Form.useForm();
+  const history = useHistory();
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
 
   const handleSubmit = (): void => {
+    const uuid = uuidv4();
     const team1: Team = {
       name: form.getFieldValue('team1'),
       players: form.getFieldValue('players'),
@@ -28,7 +32,8 @@ const NewGame = (): JSX.Element => {
       players: [],
     };
 
-    dispatch(addGame({ id: uuidv4(), team1: team1, team2: team2, created: dayjs().format() }));
+    dispatch(addGame({ id: uuid, team1: team1, team2: team2, created: dayjs().format() }));
+    history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: uuid }]));
   };
 
   return (

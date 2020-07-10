@@ -1,3 +1,4 @@
+import Game from './components/Game';
 import Home from './components/Home';
 import NewGame from './components/NewGame';
 
@@ -21,6 +22,7 @@ export const Urls = {
   HOME: '/home',
   NEW_GAME: '/new-game',
   GAME_HISTORY: '/game-history',
+  GAME: '/game/:id',
   DEFAULT: '/:anything_else',
 };
 
@@ -34,6 +36,11 @@ export const routes: RouteConfig[] = [
     path: Urls.NEW_GAME,
     exact: true,
     component: NewGame,
+  },
+  {
+    path: Urls.GAME,
+    exact: true,
+    component: Game,
   },
   {
     path: Urls.DEFAULT,
@@ -50,3 +57,12 @@ interface UrlParameter {
   parameter: string;
   value: any;
 }
+
+export const buildUrl = (base: string, parameters: UrlParameter[]): string => {
+  parameters.map((param: UrlParameter) => {
+    base = base.replace(':' + param.parameter, param.value.toString());
+    return null;
+  });
+
+  return base;
+};
