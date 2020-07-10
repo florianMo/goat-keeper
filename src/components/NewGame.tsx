@@ -1,4 +1,6 @@
-import { Button, Col, Form, Input, Row, Typography } from 'antd';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Col, Form, Input, InputNumber, Row, Space, Typography } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,7 +20,7 @@ const NewGame = (): JSX.Element => {
   const handleSubmit = (): void => {
     const team1: Team = {
       name: form.getFieldValue('team1'),
-      players: [],
+      players: form.getFieldValue('players'),
     };
 
     const team2: Team = {
@@ -37,20 +39,76 @@ const NewGame = (): JSX.Element => {
           <Col xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
             <Title level={2}>Nouveau match</Title>
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
-              <Form.Item name="team1" label="Ton équipe" rules={[{ required: true, message: 'requis' }]}>
+              <Form.Item
+                name="team1"
+                label="Ton équipe"
+                rules={[{ required: true, message: 'requis' }]}
+                validateTrigger={['onChange', 'onBlur']}
+              >
                 <Input />
               </Form.Item>
 
               <Form.Item
                 name="team2"
-                label="L'équipe des salauds d'en face"
+                label="L'autre équipe"
                 rules={[{ required: true, message: 'requis' }]}
+                validateTrigger={['onChange', 'onBlur']}
               >
                 <Input />
               </Form.Item>
 
+              <Form.List name="players">
+                {(fields, { add, remove }): JSX.Element => {
+                  return (
+                    <div>
+                      {fields.map((field) => (
+                        <Space key={field.key} align="start">
+                          <Form.Item
+                            {...field}
+                            name={[field.name, 'name']}
+                            fieldKey={[field.fieldKey, 'name']}
+                            rules={[{ required: true, message: 'requis' }]}
+                          >
+                            <Input placeholder="nom du joueur" />
+                          </Form.Item>
+
+                          <Form.Item
+                            {...field}
+                            name={[field.name, 'number']}
+                            fieldKey={[field.fieldKey, 'number']}
+                            rules={[{ required: true, message: 'requis' }]}
+                          >
+                            <InputNumber min={0} step="1" />
+                          </Form.Item>
+
+                          {fields.length > 1 ? (
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              className="dynamic-delete-button"
+                              onClick={(): void => remove(field.name)}
+                            />
+                          ) : null}
+                        </Space>
+                      ))}
+
+                      <Form.Item className="add-player">
+                        <Button
+                          block
+                          type="dashed"
+                          onClick={(): void => {
+                            add();
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faPlus} /> Ajouter un joueur
+                        </Button>
+                      </Form.Item>
+                    </div>
+                  );
+                }}
+              </Form.List>
+
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button block type="primary" htmlType="submit">
                   OK
                 </Button>
               </Form.Item>
@@ -65,6 +123,23 @@ const NewGame = (): JSX.Element => {
 const StyledNewGame = styled.div`
   height: calc(100vh - 80px);
   margin-top: 24px;
+
+  .ant-space {
+    display: flex;
+    width: 100%;
+
+    .ant-space-item:nth-child(1) {
+      width: 50%;
+    }
+
+    svg.fa-trash {
+      margin-top: 8px;
+    }
+  }
+
+  .add-player svg.fa-plus {
+    margin-right: 8px;
+  }
 `;
 
 export default NewGame;
