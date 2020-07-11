@@ -5,9 +5,10 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { GameSet } from 'src/models/game';
 import { Team } from 'src/models/team';
 import { buildUrl, Urls } from 'src/routes';
-import { addGame } from 'src/store/slices/mainSlice';
+import { addGame } from 'src/store/slices/gameSlice';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,9 +23,15 @@ const NewGame = (): JSX.Element => {
 
   const handleSubmit = (): void => {
     const uuid = uuidv4();
+
+    let players = form.getFieldValue('players');
+    if (!players) {
+      players = [{ name: 'Tous', number: 0 }];
+    }
+
     const team1: Team = {
       name: form.getFieldValue('team1'),
-      players: form.getFieldValue('players'),
+      players: players,
     };
 
     const team2: Team = {
@@ -32,7 +39,16 @@ const NewGame = (): JSX.Element => {
       players: [],
     };
 
-    dispatch(addGame({ id: uuid, team1: team1, team2: team2, created: dayjs().format() }));
+    const sets: GameSet[] = [
+      {
+        team1Score: 0,
+        team2Score: 0,
+        events: [],
+        at: dayjs().format(),
+      },
+    ];
+
+    dispatch(addGame({ id: uuid, team1: team1, team2: team2, sets: sets, at: dayjs().format() }));
     history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: uuid }]));
   };
 
@@ -40,7 +56,7 @@ const NewGame = (): JSX.Element => {
     <>
       <Topbar />
       <StyledNewGame>
-        <Row gutter={16}>
+        <Row>
           <Col xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
             <Title level={2}>Nouveau match</Title>
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
@@ -50,7 +66,7 @@ const NewGame = (): JSX.Element => {
                 rules={[{ required: true, message: 'requis' }]}
                 validateTrigger={['onChange', 'onBlur']}
               >
-                <Input />
+                <Input size="large" />
               </Form.Item>
 
               <Form.Item
@@ -59,7 +75,7 @@ const NewGame = (): JSX.Element => {
                 rules={[{ required: true, message: 'requis' }]}
                 validateTrigger={['onChange', 'onBlur']}
               >
-                <Input />
+                <Input size="large" />
               </Form.Item>
 
               <Form.List name="players">
@@ -73,8 +89,9 @@ const NewGame = (): JSX.Element => {
                             name={[field.name, 'name']}
                             fieldKey={[field.fieldKey, 'name']}
                             rules={[{ required: true, message: 'requis' }]}
+                            label="Nom"
                           >
-                            <Input placeholder="nom du joueur" />
+                            <Input placeholder="nom du joueur" size="large" />
                           </Form.Item>
 
                           <Form.Item
@@ -82,8 +99,9 @@ const NewGame = (): JSX.Element => {
                             name={[field.name, 'number']}
                             fieldKey={[field.fieldKey, 'number']}
                             rules={[{ required: true, message: 'requis' }]}
+                            label="Numéro"
                           >
-                            <InputNumber min={0} step="1" />
+                            <InputNumber min={0} step="1" size="large" />
                           </Form.Item>
 
                           {fields.length > 1 ? (
@@ -103,6 +121,7 @@ const NewGame = (): JSX.Element => {
                           onClick={(): void => {
                             add();
                           }}
+                          size="large"
                         >
                           <FontAwesomeIcon icon={faPlus} /> Ajouter un joueur
                         </Button>
@@ -113,7 +132,7 @@ const NewGame = (): JSX.Element => {
               </Form.List>
 
               <Form.Item>
-                <Button block type="primary" htmlType="submit">
+                <Button block type="primary" htmlType="submit" size="large">
                   OK
                 </Button>
               </Form.Item>

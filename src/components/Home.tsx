@@ -13,7 +13,7 @@ const Home = (): JSX.Element => {
     <>
       <Topbar />
       <StyledHome>
-        <Row gutter={16}>
+        <Row>
           <Col xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
             <Button block size="large" type="primary" onClick={(): void => history.push(Urls.NEW_GAME)}>
               Nouveau match
@@ -32,8 +32,10 @@ const StyledHome = styled.div`
   height: calc(100vh - 80px);
 
   button {
+    font-size: 24px;
     margin-top: 24px;
     font-weight: bold;
+    height: 100px;
   }
 `;
 

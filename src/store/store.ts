@@ -4,16 +4,16 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 
-import { mainSlice } from './slices/mainSlice';
+import { gameSlice } from './slices/gameSlice';
 
-const rootReducer = combineReducers({ main: mainSlice.reducer });
+const rootReducer = combineReducers({ games: gameSlice.reducer });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 const persistConfig = {
   key: 'gkState',
   storage: storage,
-  whitelist: ['main'],
+  whitelist: ['games'],
   stateReconciler: autoMergeLevel2,
 };
 

@@ -28,7 +28,7 @@ const StyledTopbar = styled.div`
   }
 
   .brand {
-    font-family: 'Galada';
+    font-family: 'Pacifico';
     margin-left: 12px;
     font-size: 30px;
   }
