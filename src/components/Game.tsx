@@ -6,10 +6,15 @@ import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { ActionGrid } from 'src/components/ActionGrid';
+import { CreatePlayerModal } from 'src/components/CreatePlayerModal';
+import Topbar from 'src/components/Topbar';
 import { GameEvent } from 'src/models/event';
 import { dateFormat } from 'src/models/game';
+import { Player } from 'src/models/player';
 import {
   addEvent,
+  addPlayer,
   addSet,
   decrementTeam1,
   decrementTeam2,
@@ -18,9 +23,6 @@ import {
 } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
-
-import { ActionGrid } from './ActionGrid';
-import Topbar from './Topbar';
 
 const { Title } = Typography;
 
@@ -35,6 +37,7 @@ const Game = (): JSX.Element => {
   const game = useSelector((state: RootState) => state.games.entities[id]);
   const dispatch = useDispatch();
   const [set, setSet] = useState(game ? game.sets.length - 1 : 0);
+  const [isCreatePlayerModalVisible, setIsCreatePlayerModalVisible] = useState(false);
   let leader: LeaderCode = LeaderCode.EQ;
 
   if (game) {
@@ -49,6 +52,11 @@ const Game = (): JSX.Element => {
   const handleAddAction = (event: GameEvent): void => {
     const value = { game, set, event } as any;
     dispatch(addEvent(value));
+  };
+
+  const handleCreatePlayer = (player: Player): void => {
+    dispatch(addPlayer({ game, player }));
+    setIsCreatePlayerModalVisible(false);
   };
 
   return (
@@ -107,7 +115,19 @@ const Game = (): JSX.Element => {
             <Col className="actions" xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
               <ActionGrid team={game.team1.players} onAddAction={handleAddAction} />
             </Col>
+
+            <Col className="add-player" xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
+              <Button block size="large" type="primary" onClick={(): void => setIsCreatePlayerModalVisible(true)}>
+                Retardataire
+              </Button>
+            </Col>
           </Row>
+
+          <CreatePlayerModal
+            onConfirm={handleCreatePlayer}
+            onCancel={(): void => setIsCreatePlayerModalVisible(false)}
+            visible={isCreatePlayerModalVisible}
+          />
         </StyledGame>
       )}
     </>
@@ -200,6 +220,10 @@ const StyledGame = styled.div`
         cursor: pointer;
       }
     }
+  }
+
+  .add-player {
+    margin-top: 24px;
   }
 `;
 

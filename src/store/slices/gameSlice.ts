@@ -2,8 +2,8 @@ import { createEntityAdapter, createSlice, EntityState, PayloadAction } from '@r
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { GameEvent, GameEventType } from 'src/models/event';
-
-import { Game } from '../../models/game';
+import { Game } from 'src/models/game';
+import { Player } from 'src/models/player';
 
 export const gameAdapter = createEntityAdapter<Game>();
 
@@ -25,6 +25,11 @@ export const gameSlice = createSlice({
     },
     deleteGame: (state: GameState, action: PayloadAction<string>): void => {
       gameAdapter.removeOne(state, action.payload);
+    },
+    addPlayer: (state: GameState, action: PayloadAction<{ game: Game; player: Player }>): void => {
+      const game = _.cloneDeep(action.payload.game);
+      game.team1.players.push(action.payload.player);
+      gameAdapter.updateOne(state, { id: game.id, changes: game });
     },
     incrementTeam1: (state: GameState, action: PayloadAction<{ game: Game; set: number }>): void => {
       const game = _.cloneDeep(action.payload.game);
@@ -82,6 +87,7 @@ export const gameSlice = createSlice({
 export const {
   addEvent,
   addGame,
+  addPlayer,
   addSet,
   decrementTeam1,
   decrementTeam2,

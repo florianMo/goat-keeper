@@ -27,6 +27,9 @@ export const ActionGrid: React.FC<ActionGridProps> = (props: ActionGridProps): J
     <StyledActionGrid>
       {!eventClicked && (
         <>
+          <div className="topline">
+            <span>Que s'est-il passé ?</span>
+          </div>
           <ActionButton
             event={{ type: GameEventType.SERVICE, positive: true }}
             onClick={(event): void => handleActionClicked(event)}
@@ -84,6 +87,16 @@ export const ActionGrid: React.FC<ActionGridProps> = (props: ActionGridProps): J
 
       {eventClicked && (
         <>
+          <div className="topline">
+            <span>
+              Qui a {eventClicked.positive ? 'brillamment réussi' : '(encore) totalement foiré'} son geste{' '}
+              {eventClicked.positive ? '🎉' : '🐐'} (
+              <button className="link" onClick={(): void => setEventClicked(undefined)}>
+                annuler
+              </button>
+              ) ?
+            </span>
+          </div>
           {props.team.map((player) => (
             <PlayerButton
               key={player.name + ':' + player.number}
@@ -102,4 +115,15 @@ const StyledActionGrid = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
+  .topline {
+    width: 100%;
+    display: flex;
+    font-weight: bold;
+    justify-content: center;
+
+    span {
+      font-size: 20px;
+    }
+  }
 `;
