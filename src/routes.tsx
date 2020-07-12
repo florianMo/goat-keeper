@@ -20,11 +20,11 @@ export interface MenuElement {
 }
 
 export const Urls = {
-  HOME: '/home',
-  NEW_GAME: '/new-game',
-  GAME_LIST: '/game-list',
-  GAME: '/game/:id',
-  DEFAULT: '/:anything_else',
+  HOME: process.env.PUBLIC_URL + '/home',
+  NEW_GAME: process.env.PUBLIC_URL + '/new-game',
+  GAME_LIST: process.env.PUBLIC_URL + '/game-list',
+  GAME: process.env.PUBLIC_URL + '/game/:id',
+  DEFAULT: process.env.PUBLIC_URL + '/:anything_else',
 };
 
 export const routes: RouteConfig[] = [
