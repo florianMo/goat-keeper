@@ -2,6 +2,7 @@ import Game from './components/Game';
 import GameList from './components/GameList';
 import Home from './components/Home';
 import NewGame from './components/NewGame';
+import { TeamManagement } from './components/TeamManagement';
 
 export interface RouteConfig {
   path: string;
@@ -24,6 +25,7 @@ export const Urls = {
   NEW_GAME: process.env.PUBLIC_URL + '/new-game',
   GAME_LIST: process.env.PUBLIC_URL + '/game-list',
   GAME: process.env.PUBLIC_URL + '/game/:id',
+  TEAM_MANAGEMENT: process.env.PUBLIC_URL + '/game/:id/team',
   DEFAULT: process.env.PUBLIC_URL + '/:anything_else',
 };
 
@@ -47,6 +49,11 @@ export const routes: RouteConfig[] = [
     path: Urls.GAME_LIST,
     exact: true,
     component: GameList,
+  },
+  {
+    path: Urls.TEAM_MANAGEMENT,
+    exact: true,
+    component: TeamManagement,
   },
   {
     path: Urls.DEFAULT,

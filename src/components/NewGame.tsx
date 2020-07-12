@@ -6,14 +6,13 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Topbar } from 'src/components/Topbar';
 import { GameSet } from 'src/models/game';
 import { Team } from 'src/models/team';
 import { buildUrl, Urls } from 'src/routes';
 import { addGame } from 'src/store/slices/gameSlice';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-
-import Topbar from './Topbar';
 
 const { Title } = Typography;
 

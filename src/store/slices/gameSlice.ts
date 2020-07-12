@@ -31,6 +31,13 @@ export const gameSlice = createSlice({
       game.team1.players.push(action.payload.player);
       gameAdapter.updateOne(state, { id: game.id, changes: game });
     },
+    deletePlayer: (state: GameState, action: PayloadAction<{ game: Game; playerKey: string }>): void => {
+      const game = _.cloneDeep(action.payload.game);
+      const playerProperties = action.payload.playerKey.split(':');
+      const player: Player = { name: playerProperties[0], number: parseInt(playerProperties[1], 10) };
+      game.team1.players = game.team1.players.filter((p) => player.name !== p.name && player.number !== p.number);
+      gameAdapter.updateOne(state, { id: game.id, changes: game });
+    },
     incrementTeam1: (state: GameState, action: PayloadAction<{ game: Game; set: number }>): void => {
       const game = _.cloneDeep(action.payload.game);
       game.sets[action.payload.set].team1Score++;
@@ -92,6 +99,7 @@ export const {
   decrementTeam1,
   decrementTeam2,
   deleteGame,
+  deletePlayer,
   incrementTeam1,
   incrementTeam2,
 } = gameSlice.actions;

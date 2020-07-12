@@ -14,7 +14,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { SetResults } from 'src/components/SetResults';
-import Topbar from 'src/components/Topbar';
+import { Topbar } from 'src/components/Topbar';
 import { dateFormat, isWon } from 'src/models/game';
 import { buildUrl, Urls } from 'src/routes';
 import { deleteGame } from 'src/store/slices/gameSlice';

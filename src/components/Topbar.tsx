@@ -8,7 +8,7 @@ import volleyball from 'src/assets/images/volleyball.png';
 import { Urls } from 'src/routes';
 import styled from 'styled-components';
 
-const Topbar = (): JSX.Element => {
+export const Topbar = (): JSX.Element => {
   const history = useHistory();
 
   return (
@@ -61,5 +61,3 @@ const StyledTopbar = styled.div`
     cursor: pointer;
   }
 `;
-
-export default Topbar;
