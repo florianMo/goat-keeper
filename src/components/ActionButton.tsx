@@ -1,4 +1,4 @@
-import { green, red } from '@ant-design/colors';
+import { lime, red } from '@ant-design/colors';
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -33,7 +33,7 @@ const StyledActionButton = styled.div<{ positive: boolean | undefined; type: str
   width: ${(props): string => (props.type === GameEventType.ACE ? '100%' : '170px')};
   height: 100px;
   margin: 8px;
-  background-color: ${(props): string => (props.positive ? green[6] : red[6])};
+  background-color: ${(props): string => (props.positive ? lime[7] : red[6])};
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -45,20 +45,7 @@ const StyledActionButton = styled.div<{ positive: boolean | undefined; type: str
     margin-bottom: 8px;
   }
 
-  .label,
-  svg {
-    transition: 0.1s ease-in-out;
-  }
-
   &:hover {
     box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
-
-    .label {
-      transform: ${(props): string => (props.positive ? 'rotateZ(-10deg)' : 'rotateZ(10deg)')};
-    }
-
-    svg {
-      transform: ${(props): string => (props.positive ? 'rotateZ(-25deg)' : 'rotateZ(25deg)')};
-    }
   }
 `;

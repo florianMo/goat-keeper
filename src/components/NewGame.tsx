@@ -1,3 +1,4 @@
+import { red } from '@ant-design/colors';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Form, Input, InputNumber, Row, Space, Typography } from 'antd';
@@ -57,7 +58,7 @@ const NewGame = (): JSX.Element => {
       <Topbar />
       <StyledNewGame>
         <Row>
-          <Col xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
+          <Col xs={{ span: 20, offset: 2 }} lg={{ span: 8, offset: 8 }}>
             <Title level={2}>Nouveau match</Title>
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
               <Form.Item
@@ -107,6 +108,7 @@ const NewGame = (): JSX.Element => {
                           {fields.length > 1 ? (
                             <FontAwesomeIcon
                               icon={faTrash}
+                              size="lg"
                               className="dynamic-delete-button"
                               onClick={(): void => remove(field.name)}
                             />
@@ -157,7 +159,13 @@ const StyledNewGame = styled.div`
     }
 
     svg.fa-trash {
-      margin-top: 8px;
+      margin-top: 42px;
+      margin-left: 8px;
+      cursor: pointer;
+
+      &:hover {
+        color: ${red[6]};
+      }
     }
   }
 

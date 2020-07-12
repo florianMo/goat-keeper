@@ -14,12 +14,12 @@ const Home = (): JSX.Element => {
       <Topbar />
       <StyledHome>
         <Row>
-          <Col xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
+          <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 6 }}>
             <Button block size="large" type="primary" onClick={(): void => history.push(Urls.NEW_GAME)}>
               Nouveau match
             </Button>
-            <Button block size="large" type="primary" onClick={(): void => history.push(Urls.GAME_HISTORY)}>
-              Historique
+            <Button block size="large" type="primary" onClick={(): void => history.push(Urls.GAME_LIST)}>
+              Matchs enregistrés sur cette machine
             </Button>
           </Col>
         </Row>

@@ -1,4 +1,4 @@
-import { blue, green, grey, red } from '@ant-design/colors';
+import { blue, cyan, grey, lime, red } from '@ant-design/colors';
 import { faMinusCircle, faPlus, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Radio, Row, Typography } from 'antd';
@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { GameEvent } from 'src/models/event';
+import { dateFormat } from 'src/models/game';
 import {
   addEvent,
   addSet,
@@ -57,12 +58,12 @@ const Game = (): JSX.Element => {
       {game && (
         <StyledGame>
           <Row>
-            <Col className="date">{dayjs(game.at).format('DD/MM/YYYY')}</Col>
+            <Col className="date">{dayjs(game.at).format(dateFormat)}</Col>
             <Col className="setSelector">
               <Radio.Group onChange={(e): void => setSet(e.target.value)} value={set} buttonStyle="solid" size="large">
                 {game.sets.map((set, index) => (
                   <Radio.Button key={index} value={index}>
-                    Set {index + 1} ({set.team1Score}-{set.team2Score})
+                    Set {index + 1} ({set.team1Score}•{set.team2Score})
                   </Radio.Button>
                 ))}
               </Radio.Group>
@@ -150,6 +151,15 @@ const StyledGame = styled.div`
       align-items: center;
       user-select: none;
 
+      svg {
+        transition: 0.3s all;
+        color: ${cyan[8]};
+
+        &:hover {
+          color: ${cyan[7]};
+        }
+      }
+
       h2 {
         width: 150px;
         margin: 0 8px;
@@ -167,15 +177,16 @@ const StyledGame = styled.div`
         width: 80px;
         text-align: center;
         font-size: 36px;
+        font-weight: 700;
         padding: 4px;
         margin: 4px;
-        background-color: ${blue[5]};
+        background-color: ${blue[4]};
         color: white;
         border-radius: 4px;
 
         &.t1.leaderT1,
         &.t2.leaderT2 {
-          background-color: ${green[6]};
+          background-color: ${lime[7]};
         }
 
         &.t1.leaderT2,

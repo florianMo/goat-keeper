@@ -23,6 +23,9 @@ export const gameSlice = createSlice({
     addGame: (state: GameState, action: PayloadAction<Game>): void => {
       gameAdapter.addOne(state, action.payload);
     },
+    deleteGame: (state: GameState, action: PayloadAction<string>): void => {
+      gameAdapter.removeOne(state, action.payload);
+    },
     incrementTeam1: (state: GameState, action: PayloadAction<{ game: Game; set: number }>): void => {
       const game = _.cloneDeep(action.payload.game);
       game.sets[action.payload.set].team1Score++;
@@ -82,6 +85,7 @@ export const {
   addSet,
   decrementTeam1,
   decrementTeam2,
+  deleteGame,
   incrementTeam1,
   incrementTeam2,
 } = gameSlice.actions;

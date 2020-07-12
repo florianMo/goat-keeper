@@ -15,3 +15,12 @@ export interface GameSet {
   events: GameEvent[];
   at: string;
 }
+
+export const isWon = (game: Game): boolean => {
+  return (
+    game.sets.filter((set) => set.team1Score > set.team2Score).length >
+    game.sets.filter((set) => set.team1Score < set.team2Score).length
+  );
+};
+
+export const dateFormat = 'DD/MM/YYYY';

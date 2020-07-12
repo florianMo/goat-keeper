@@ -2,6 +2,22 @@
   font-family: 'Roboto Condensed';
 }
 
+.ant-btn-primary,
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  background-color: #00474f !important;
+  border-color: #00474f !important;
+}
+
+.ant-btn-primary:hover,
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+  background-color: #006d75 !important;
+  border-color: #006d75 !important;
+}
+
+.ant-btn span {
+  font-weight: 700;
+}
+
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0-modified | 20110126
    License: none (public domain)

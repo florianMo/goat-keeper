@@ -1,4 +1,5 @@
 import Game from './components/Game';
+import GameList from './components/GameList';
 import Home from './components/Home';
 import NewGame from './components/NewGame';
 
@@ -21,7 +22,7 @@ export interface MenuElement {
 export const Urls = {
   HOME: '/home',
   NEW_GAME: '/new-game',
-  GAME_HISTORY: '/game-history',
+  GAME_LIST: '/game-list',
   GAME: '/game/:id',
   DEFAULT: '/:anything_else',
 };
@@ -41,6 +42,11 @@ export const routes: RouteConfig[] = [
     path: Urls.GAME,
     exact: true,
     component: Game,
+  },
+  {
+    path: Urls.GAME_LIST,
+    exact: true,
+    component: GameList,
   },
   {
     path: Urls.DEFAULT,
