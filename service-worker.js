@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/goat-keeper/precache-manifest.c1d9b277752202921bfc0201c582c302.js"
+  "/goat-keeper/precache-manifest.bc8d52580518e28d125e98a9385d5aed.js"
 );
 
 self.addEventListener('message', (event) => {
