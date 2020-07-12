@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d80ec980053054d4f066d3a102eacb32",
+    "revision": "2076a0887a25467a32216033ee6c1a9d",
     "url": "/goat-keeper/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/goat-keeper/static/css/2.9edc93b8.chunk.css"
   },
   {
-    "revision": "9fbc9dbbae9d2c527ab1",
+    "revision": "ce4250397db41545c204",
     "url": "/goat-keeper/static/css/main.50af2471.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/goat-keeper/static/js/2.94f349ad.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "9fbc9dbbae9d2c527ab1",
-    "url": "/goat-keeper/static/js/main.7d3a712c.chunk.js"
+    "revision": "ce4250397db41545c204",
+    "url": "/goat-keeper/static/js/main.1c71d2a3.chunk.js"
   },
   {
     "revision": "f2a176d118bc94f1ae2f",
