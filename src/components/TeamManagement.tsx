@@ -33,6 +33,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
       title: '',
       dataIndex: '',
       key: 'x',
+      className: 'actions',
       render: (record: any): JSX.Element => {
         return (
           <>
@@ -68,6 +69,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
               </button>
 
               <Table
+                size="small"
                 bordered={true}
                 dataSource={game.team1.players.map((player) => {
                   return { ...player, key: player.name + ':' + player.number };
