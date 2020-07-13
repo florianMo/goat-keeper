@@ -8,7 +8,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Topbar } from 'src/components/Topbar';
 import { Game } from 'src/models/game';
 import { Player } from 'src/models/player';
-import { buildUrl, Urls } from 'src/routes';
+import { buildUrl, Urls } from 'src/routing';
 import { addPlayer, deletePlayer } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';

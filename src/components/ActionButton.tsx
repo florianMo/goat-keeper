@@ -2,10 +2,8 @@ import { lime, red } from '@ant-design/colors';
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { t } from 'src/models/event';
+import { GameEvent, GameEventType, t } from 'src/models';
 import styled from 'styled-components';
-
-import { GameEvent, GameEventType } from '../models/event';
 
 interface ActionButtonProps {
   event: GameEvent;

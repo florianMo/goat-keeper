@@ -9,8 +9,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { ActionGrid } from 'src/components/ActionGrid';
 import { Topbar } from 'src/components/Topbar';
 import { GameEvent } from 'src/models/event';
-import { dateFormat } from 'src/models/game';
-import { buildUrl, Urls } from 'src/routes';
+import { DATE_FORMAT, MAX_SCORE, MIN_SCORE } from 'src/models/game';
+import { buildUrl, Urls } from 'src/routing';
 import {
   addEvent,
   addSet,
@@ -30,22 +30,43 @@ enum LeaderCode {
   T2 = 'T2',
 }
 
-const Game = (): JSX.Element => {
+export const Game = (): JSX.Element => {
   const { id } = useParams();
   const history = useHistory();
   const game = useSelector((state: RootState) => state.games.entities[id]);
   const dispatch = useDispatch();
   const [set, setSet] = useState(game ? game.sets.length - 1 : 0);
-  let leader: LeaderCode = LeaderCode.EQ;
 
-  if (game) {
-    leader =
-      game.sets[set].team1Score > game.sets[set].team2Score
-        ? LeaderCode.T1
-        : game.sets[set].team1Score < game.sets[set].team2Score
-        ? LeaderCode.T2
-        : LeaderCode.EQ;
-  }
+  const leader: LeaderCode =
+    game.sets[set].team1Score > game.sets[set].team2Score
+      ? LeaderCode.T1
+      : game.sets[set].team1Score < game.sets[set].team2Score
+      ? LeaderCode.T2
+      : LeaderCode.EQ;
+
+  const handleIncrementT1 = (): void => {
+    if (game.sets[set].team1Score < MAX_SCORE) {
+      dispatch(incrementTeam1({ game, set }));
+    }
+  };
+
+  const handleIncrementT2 = (): void => {
+    if (game.sets[set].team2Score < MAX_SCORE) {
+      dispatch(incrementTeam2({ game, set }));
+    }
+  };
+
+  const handleDecrementT1 = (): void => {
+    if (game.sets[set].team1Score > MIN_SCORE) {
+      dispatch(decrementTeam1({ game, set }));
+    }
+  };
+
+  const handleDecrementT2 = (): void => {
+    if (game.sets[set].team2Score > MIN_SCORE) {
+      dispatch(decrementTeam2({ game, set }));
+    }
+  };
 
   const handleAddAction = (event: GameEvent): void => {
     const value = { game, set, event } as any;
@@ -59,7 +80,7 @@ const Game = (): JSX.Element => {
       {game && (
         <StyledGame>
           <Row>
-            <Col className="date">{dayjs(game.at).format(dateFormat)}</Col>
+            <Col className="date">{dayjs(game.at).format(DATE_FORMAT)}</Col>
             <Col className="setSelector">
               <Radio.Group onChange={(e): void => setSet(e.target.value)} value={set} buttonStyle="solid" size="large">
                 {game.sets.map((set, index) => (
@@ -77,32 +98,16 @@ const Game = (): JSX.Element => {
             </Col>
             <Col className="header">
               <div className="side left">
-                <FontAwesomeIcon
-                  icon={faPlusCircle}
-                  size="3x"
-                  onClick={(): any => dispatch(incrementTeam1({ game, set }))}
-                />
-                <FontAwesomeIcon
-                  icon={faMinusCircle}
-                  size="3x"
-                  onClick={(): any => dispatch(decrementTeam1({ game, set }))}
-                />
+                <FontAwesomeIcon icon={faPlusCircle} size="3x" onClick={handleIncrementT1} />
+                <FontAwesomeIcon icon={faMinusCircle} size="3x" onClick={handleDecrementT1} />
                 <Title level={2}>{game.team1.name}</Title>
                 <span className={`score t1 leader${leader}`}>{game.sets[set].team1Score}</span>
               </div>
               <div className="side">
                 <span className={`score t2 leader${leader}`}>{game.sets[set].team2Score}</span>
                 <Title level={2}>{game.team2.name}</Title>
-                <FontAwesomeIcon
-                  icon={faPlusCircle}
-                  size="3x"
-                  onClick={(): any => dispatch(incrementTeam2({ game, set }))}
-                />
-                <FontAwesomeIcon
-                  icon={faMinusCircle}
-                  size="3x"
-                  onClick={(): any => dispatch(decrementTeam2({ game, set }))}
-                />
+                <FontAwesomeIcon icon={faPlusCircle} size="3x" onClick={handleIncrementT2} />
+                <FontAwesomeIcon icon={faMinusCircle} size="3x" onClick={handleDecrementT2} />
               </div>
             </Col>
             <Col className="actions" xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
@@ -216,5 +221,3 @@ const StyledGame = styled.div`
     margin: auto;
   }
 `;
-
-export default Game;

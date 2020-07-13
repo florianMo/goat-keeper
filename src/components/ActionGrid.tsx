@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Player } from 'src/models/player';
+import { ActionButton } from 'src/components/ActionButton';
+import { PlayerButton } from 'src/components/PlayerButton';
+import { GameEvent, GameEventType, Player } from 'src/models';
 import styled from 'styled-components';
-
-import { GameEvent, GameEventType } from '../models/event';
-import { ActionButton } from './ActionButton';
-import { PlayerButton } from './PlayerButton';
 
 interface ActionGridProps {
   team: Player[];

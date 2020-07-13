@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice, EntityState, PayloadAction } from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
 import _ from 'lodash';
+import { Game } from 'src/models';
 import { GameEvent, GameEventType } from 'src/models/event';
-import { Game } from 'src/models/game';
 import { Player } from 'src/models/player';
 
 export const gameAdapter = createEntityAdapter<Game>();
@@ -57,26 +57,22 @@ export const gameSlice = createSlice({
       gameAdapter.updateOne(state, { id: game.id, changes: game });
     },
     decrementTeam1: (state: GameState, action: PayloadAction<{ game: Game; set: number }>): void => {
-      if (action.payload.game.sets[action.payload.set].team1Score > 0) {
-        const game = _.cloneDeep(action.payload.game);
-        game.sets[action.payload.set].team1Score--;
-        game.sets[action.payload.set].events.push({
-          type: GameEventType.T1_SCORE_DECREMENT,
-          at: dayjs().format(),
-        });
-        gameAdapter.updateOne(state, { id: game.id, changes: game });
-      }
+      const game = _.cloneDeep(action.payload.game);
+      game.sets[action.payload.set].team1Score--;
+      game.sets[action.payload.set].events.push({
+        type: GameEventType.T1_SCORE_DECREMENT,
+        at: dayjs().format(),
+      });
+      gameAdapter.updateOne(state, { id: game.id, changes: game });
     },
     decrementTeam2: (state: GameState, action: PayloadAction<{ game: Game; set: number }>): void => {
-      if (action.payload.game.sets[action.payload.set].team2Score > 0) {
-        const game = _.cloneDeep(action.payload.game);
-        game.sets[action.payload.set].team2Score--;
-        game.sets[action.payload.set].events.push({
-          type: GameEventType.T2_SCORE_DECREMENT,
-          at: dayjs().format(),
-        });
-        gameAdapter.updateOne(state, { id: game.id, changes: game });
-      }
+      const game = _.cloneDeep(action.payload.game);
+      game.sets[action.payload.set].team2Score--;
+      game.sets[action.payload.set].events.push({
+        type: GameEventType.T2_SCORE_DECREMENT,
+        at: dayjs().format(),
+      });
+      gameAdapter.updateOne(state, { id: game.id, changes: game });
     },
     addSet: (state: GameState, action: PayloadAction<Game>): void => {
       const game = _.cloneDeep(action.payload);

@@ -1,10 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { RouteAndSubRoute, routes } from 'src/routing';
 
-import RouteAndSubRoute from '../RouteAndSubRoute';
-import { routes } from '../routes';
-
-const App = (): JSX.Element => {
+export const App = (): JSX.Element => {
   return (
     <Router>
       <Switch>
@@ -15,5 +13,3 @@ const App = (): JSX.Element => {
     </Router>
   );
 };
-
-export default App;

@@ -1,8 +1,8 @@
-import Game from './components/Game';
-import GameList from './components/GameList';
-import Home from './components/Home';
-import NewGame from './components/NewGame';
-import { TeamManagement } from './components/TeamManagement';
+import { Game } from 'src/components/Game';
+import { GameList } from 'src/components/GameList';
+import { Home } from 'src/components/Home';
+import { NewGame } from 'src/components/NewGame';
+import { TeamManagement } from 'src/components/TeamManagement';
 
 export interface RouteConfig {
   path: string;

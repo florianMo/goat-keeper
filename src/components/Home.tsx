@@ -2,10 +2,10 @@ import { Button, Col, Row } from 'antd';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Topbar } from 'src/components/Topbar';
-import { Urls } from 'src/routes';
+import { Urls } from 'src/routing';
 import styled from 'styled-components';
 
-const Home = (): JSX.Element => {
+export const Home = (): JSX.Element => {
   const history = useHistory();
 
   return (
@@ -37,5 +37,3 @@ const StyledHome = styled.div`
     height: 100px;
   }
 `;
-
-export default Home;

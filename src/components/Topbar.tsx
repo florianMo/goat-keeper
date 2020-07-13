@@ -5,7 +5,7 @@ import { Tooltip } from 'antd';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import volleyball from 'src/assets/images/volleyball.png';
-import { Urls } from 'src/routes';
+import { Urls } from 'src/routing';
 import styled from 'styled-components';
 
 export const Topbar = (): JSX.Element => {
