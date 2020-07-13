@@ -2,7 +2,7 @@
 import { cyan, red } from '@ant-design/colors';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Col, Form, Input, InputNumber, message, Row, Table, Typography } from 'antd';
+import { Button, Col, Form, Input, InputNumber, message, Popconfirm, Row, Table, Tooltip, Typography } from 'antd';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -13,6 +13,8 @@ import { buildUrl, Urls } from 'src/routing';
 import { addPlayer, deletePlayer } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
+
+import { colLayout } from './App';
 
 const { Title } = Typography;
 
@@ -33,18 +35,20 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
     {
       title: '',
       dataIndex: '',
-      key: 'x',
+      key: 'actions',
       className: 'actions fit-content',
-      render: (record: any): JSX.Element => {
-        return (
-          <>
-            <FontAwesomeIcon
-              icon={faTrash}
-              onClick={(): any => dispatch(deletePlayer({ game: game, playerKey: record.key }))}
-            />
-          </>
-        );
-      },
+      render: (record: any): JSX.Element => (
+        <Tooltip key="delete" title="supprimer cette personne">
+          <Popconfirm
+            title={'sûr ?'}
+            onConfirm={(): any => dispatch(deletePlayer({ game: game, playerKey: record.key }))}
+            okText="Oui"
+            cancelText="Non en fait"
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </Popconfirm>
+        </Tooltip>
+      ),
     },
   ];
 
@@ -64,7 +68,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
       {game && (
         <StyledTeamTable>
           <Row>
-            <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 6 }}>
+            <Col {...colLayout}>
               <Title level={2}>Gérer mon équipe</Title>
               <button
                 className="link"
@@ -83,7 +87,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
                 pagination={false}
               ></Table>
 
-              <Form form={form} layout="inline" onFinish={handleAddPlayer}>
+              <Form form={form} layout="horizontal" onFinish={handleAddPlayer}>
                 <Form.Item
                   name="name"
                   label="Nom"
@@ -102,8 +106,8 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
                   <InputNumber />
                 </Form.Item>
 
-                <Form.Item>
-                  <Button block type="primary" htmlType="submit">
+                <Form.Item className="button">
+                  <Button type="primary" htmlType="submit">
                     OK
                   </Button>
                 </Form.Item>
@@ -143,5 +147,9 @@ const StyledTeamTable = styled.div`
       &[data-icon='trash']:hover {
       color: ${red[5]};
     }
+  }
+
+  .button .ant-form-item-control-input-content {
+    text-align: right;
   }
 `;

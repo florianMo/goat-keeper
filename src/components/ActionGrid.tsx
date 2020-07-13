@@ -1,4 +1,4 @@
-import { lime, red } from '@ant-design/colors';
+import { blue, lime, red } from '@ant-design/colors';
 import React, { useState } from 'react';
 import { ActionButton } from 'src/components/ActionButton';
 import { PlayerButton } from 'src/components/PlayerButton';
@@ -120,8 +120,6 @@ export const ActionGrid: React.FC<ActionGridProps> = (props: ActionGridProps): J
 };
 
 const StyledActionGrid = styled.div`
-  margin-top: 24px;
-
   .topline {
     width: 100%;
     display: flex;
@@ -137,12 +135,16 @@ const StyledActionGrid = styled.div`
     }
   }
 
-  .side {
+  .side,
+  .players {
     padding: 16px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     margin-bottom: 16px;
+  }
 
+  .side {
     &.success {
       background-color: ${lime[1]};
       border: 2px solid ${lime[3]};
@@ -155,8 +157,7 @@ const StyledActionGrid = styled.div`
   }
 
   .players {
-    padding: 16px;
-    display: flex;
-    flex-wrap: wrap;
+    background-color: ${blue[1]};
+    border: 2px solid ${blue[3]};
   }
 `;

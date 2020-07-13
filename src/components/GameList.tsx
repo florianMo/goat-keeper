@@ -21,6 +21,8 @@ import { deleteGame } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
+import { colLayout } from './App';
+
 const { Title } = Typography;
 
 export const GameList = (): JSX.Element => {
@@ -34,7 +36,7 @@ export const GameList = (): JSX.Element => {
 
       <StyledGameList>
         <Row>
-          <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 6 }}>
+          <Col {...colLayout}>
             <Title level={2}>Matchs enregistrés sur ce navigateur</Title>
             <List
               bordered
@@ -87,7 +89,7 @@ export const GameList = (): JSX.Element => {
             />
           </Col>
 
-          <Col className="button" xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 6 }}>
+          <Col className="button" {...colLayout}>
             <Button size="large" type="primary" block onClick={(): void => history.push(Urls.NEW_GAME)}>
               Nouveau match
             </Button>

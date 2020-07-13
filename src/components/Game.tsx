@@ -1,7 +1,7 @@
 import { blue, cyan, grey, lime, red } from '@ant-design/colors';
-import { faMinusCircle, faPlus, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Col, Radio, Row, Typography } from 'antd';
+import { Button, Col, Radio, Row } from 'antd';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ import {
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
-const { Title } = Typography;
+import { colLayout } from './App';
 
 enum LeaderCode {
   EQ = 'EQ',
@@ -85,7 +85,7 @@ export const Game = (): JSX.Element => {
               <Radio.Group onChange={(e): void => setSet(e.target.value)} value={set} buttonStyle="solid" size="large">
                 {game.sets.map((set, index) => (
                   <Radio.Button key={index} value={index}>
-                    Set {index + 1} ({set.team1Score}•{set.team2Score})
+                    {set.team1Score}•{set.team2Score}
                   </Radio.Button>
                 ))}
               </Radio.Group>
@@ -96,21 +96,27 @@ export const Game = (): JSX.Element => {
                 </Button>
               )}
             </Col>
+            <Col className="team-names">
+              <span>{game.team1.name}</span>
+              <span>{game.team2.name}</span>
+            </Col>
             <Col className="header">
               <div className="side left">
-                <FontAwesomeIcon icon={faPlusCircle} size="3x" onClick={handleIncrementT1} />
-                <FontAwesomeIcon icon={faMinusCircle} size="3x" onClick={handleDecrementT1} />
-                <Title level={2}>{game.team1.name}</Title>
                 <span className={`score t1 leader${leader}`}>{game.sets[set].team1Score}</span>
+                <div className="score-controls">
+                  <FontAwesomeIcon icon={faChevronUp} size="lg" onClick={handleIncrementT1} />
+                  <FontAwesomeIcon icon={faChevronDown} size="lg" onClick={handleDecrementT1} />
+                </div>
               </div>
-              <div className="side">
+              <div className="side right">
+                <div className="score-controls">
+                  <FontAwesomeIcon icon={faChevronUp} size="lg" onClick={handleIncrementT2} />
+                  <FontAwesomeIcon icon={faChevronDown} size="lg" onClick={handleDecrementT2} />
+                </div>
                 <span className={`score t2 leader${leader}`}>{game.sets[set].team2Score}</span>
-                <Title level={2}>{game.team2.name}</Title>
-                <FontAwesomeIcon icon={faPlusCircle} size="3x" onClick={handleIncrementT2} />
-                <FontAwesomeIcon icon={faMinusCircle} size="3x" onClick={handleDecrementT2} />
               </div>
             </Col>
-            <Col className="actions" xs={{ span: 20, offset: 2 }} lg={{ span: 10, offset: 7 }}>
+            <Col className="actions" {...colLayout}>
               <button
                 className="link team"
                 onClick={(): void =>
@@ -146,12 +152,32 @@ const StyledGame = styled.div`
     margin: 12px 0px;
 
     .ant-radio-button-wrapper {
-      width: 120px;
+      width: 48px;
+      padding: 0px 2px;
       text-align: center;
     }
 
     button {
       margin-left: 8px;
+    }
+  }
+
+  .team-names {
+    display: flex;
+    width: 100%;
+
+    span {
+      font-size: 40px;
+      flex: 0 0 50%;
+      padding: 0 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: ${grey[5]};
+
+      &:nth-child(1) {
+        text-align: right;
+      }
     }
   }
 
@@ -170,27 +196,14 @@ const StyledGame = styled.div`
         color: ${cyan[8]};
 
         &:hover {
-          color: ${cyan[7]};
+          color: ${cyan[6]};
         }
-      }
-
-      h2 {
-        width: 150px;
-        margin: 0 8px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: ${grey[5]};
-      }
-
-      &.left h2 {
-        text-align: right;
       }
 
       .score {
         width: 80px;
         text-align: center;
-        font-size: 36px;
+        font-size: 44px;
         font-weight: 700;
         padding: 4px;
         margin: 4px;
@@ -209,9 +222,53 @@ const StyledGame = styled.div`
         }
       }
 
-      svg {
-        margin: 8px;
-        cursor: pointer;
+      .score-controls {
+        width: 40px;
+        padding: 4px;
+        display: flex;
+        flex-direction: column;
+        background-color: ${cyan[8]};
+
+        svg {
+          color: white;
+          margin: 8px;
+          cursor: pointer;
+          transition: 0.3s all;
+
+          &:hover {
+            color: ${cyan[7]};
+          }
+        }
+      }
+
+      &.left {
+        margin-right: 2px;
+
+        .score {
+          margin-right: 0px;
+          border-top-right-radius: 0px;
+          border-bottom-right-radius: 0px;
+        }
+
+        .score-controls {
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+        }
+      }
+
+      &.right {
+        margin-left: 2px;
+
+        .score {
+          margin-left: 0px;
+          border-top-left-radius: 0px;
+          border-bottom-left-radius: 0px;
+        }
+
+        .score-controls {
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+        }
       }
     }
   }
@@ -219,5 +276,7 @@ const StyledGame = styled.div`
   .actions button.team {
     display: block;
     margin: auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 `;

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Goat keeper",
+  "name": "Goat keeper, a volleybal score and stats tracker",
   "icons": [
     {
       "src": "favicon.ico",
