@@ -1,7 +1,8 @@
 /* eslint-disable react/display-name */
+import { cyan, red } from '@ant-design/colors';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Col, Form, Input, InputNumber, Row, Table, Typography } from 'antd';
+import { Button, Col, Form, Input, InputNumber, message, Row, Table, Typography } from 'antd';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -33,7 +34,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
       title: '',
       dataIndex: '',
       key: 'x',
-      className: 'actions',
+      className: 'actions fit-content',
       render: (record: any): JSX.Element => {
         return (
           <>
@@ -48,8 +49,12 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
   ];
 
   const handleAddPlayer = (player: Player): void => {
-    dispatch(addPlayer({ game: game, player: player }));
-    form.resetFields();
+    if (game.team1.players.some((p) => p.name === player.name && p.number === player.number)) {
+      message.error('Cette personne existe déjà');
+    } else {
+      dispatch(addPlayer({ game: game, player: player }));
+      form.resetFields();
+    }
   };
 
   return (
@@ -118,5 +123,25 @@ const StyledTeamTable = styled.div`
 
   form {
     margin-top: 24px;
+    margin-bottom: 24px;
+  }
+
+  .fit-content {
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  .actions {
+    svg {
+      transition: 0.3s all;
+      cursor: pointer;
+
+      &:hover {
+        color: ${cyan[8]};
+      }
+
+      &[data-icon='trash']:hover {
+      color: ${red[5]};
+    }
   }
 `;
