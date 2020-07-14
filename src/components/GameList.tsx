@@ -57,7 +57,9 @@ export const GameList = (): JSX.Element => {
                       <FontAwesomeIcon
                         icon={faChartLine}
                         size="lg"
-                        onClick={(): void => history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: game.id }]))}
+                        onClick={(): void =>
+                          history.push(buildUrl(Urls.GAME_STATS, [{ parameter: 'id', value: game.id }]))
+                        }
                       />
                     </Tooltip>,
                     <Tooltip key="export" title="exporter les données du match">

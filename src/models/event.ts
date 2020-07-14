@@ -4,6 +4,7 @@ export interface GameEvent {
   type: GameEventType;
   positive?: boolean;
   player?: Player;
+  value?: number;
   at?: string;
 }
 
@@ -17,8 +18,10 @@ export enum GameEventType {
   ACE = 'ACE',
   T1_SCORE_INCREMENT = 'T1_SCORE_INCREMENT',
   T1_SCORE_DECREMENT = 'T1_SCORE_DECREMENT',
+  T1_SCORE_UPDATE = 'T1_SCORE_UPDATE',
   T2_SCORE_INCREMENT = 'T2_SCORE_INCREMENT',
   T2_SCORE_DECREMENT = 'T2_SCORE_DECREMENT',
+  T2_SCORE_UPDATE = 'T2_SCORE_UPDATE',
 }
 
 export const t = (type: GameEventType): string => {

@@ -14,6 +14,8 @@ import { addGame } from 'src/store/slices/gameSlice';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
+import { colLayout } from './App';
+
 const { Title } = Typography;
 
 export const NewGame = (): JSX.Element => {
@@ -57,7 +59,7 @@ export const NewGame = (): JSX.Element => {
       <Topbar />
       <StyledNewGame>
         <Row>
-          <Col xs={{ span: 20, offset: 2 }} lg={{ span: 8, offset: 8 }}>
+          <Col {...colLayout}>
             <Title level={2}>Nouveau match</Title>
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
               <Form.Item
