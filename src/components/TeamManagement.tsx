@@ -33,8 +33,6 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
     { title: 'Nom', dataIndex: 'name', sorter: (a: Player, b: Player): number => a.name.localeCompare(b.name) },
     { title: 'Numéro', dataIndex: 'number', sorter: (a: Player, b: Player): number => a.number - b.number },
     {
-      title: '',
-      dataIndex: '',
       key: 'actions',
       className: 'actions fit-content',
       render: (record: any): JSX.Element => (
