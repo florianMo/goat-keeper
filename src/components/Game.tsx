@@ -102,18 +102,18 @@ export const Game = (): JSX.Element => {
             </Col>
             <Col className="header">
               <div className="side left">
-                <span className={`score t1 leader${leader}`}>{game.sets[set].team1Score}</span>
                 <div className="score-controls">
                   <FontAwesomeIcon icon={faChevronUp} size="lg" onClick={handleIncrementT1} />
                   <FontAwesomeIcon icon={faChevronDown} size="lg" onClick={handleDecrementT1} />
                 </div>
+                <span className={`score t1 leader${leader}`}>{game.sets[set].team1Score}</span>
               </div>
               <div className="side right">
+                <span className={`score t2 leader${leader}`}>{game.sets[set].team2Score}</span>
                 <div className="score-controls">
                   <FontAwesomeIcon icon={faChevronUp} size="lg" onClick={handleIncrementT2} />
                   <FontAwesomeIcon icon={faChevronDown} size="lg" onClick={handleDecrementT2} />
                 </div>
-                <span className={`score t2 leader${leader}`}>{game.sets[set].team2Score}</span>
               </div>
             </Col>
             <Col className="actions" {...colLayout}>
@@ -206,10 +206,8 @@ const StyledGame = styled.div`
         font-size: 44px;
         font-weight: 700;
         padding: 4px;
-        margin: 4px;
         background-color: ${blue[4]};
         color: white;
-        border-radius: 4px;
 
         &.t1.leaderT1,
         &.t2.leaderT2 {
@@ -242,32 +240,16 @@ const StyledGame = styled.div`
       }
 
       &.left {
-        margin-right: 2px;
-
-        .score {
-          margin-right: 0px;
-          border-top-right-radius: 0px;
-          border-bottom-right-radius: 0px;
-        }
-
         .score-controls {
-          border-top-right-radius: 4px;
-          border-bottom-right-radius: 4px;
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
         }
       }
 
       &.right {
-        margin-left: 2px;
-
-        .score {
-          margin-left: 0px;
-          border-top-left-radius: 0px;
-          border-bottom-left-radius: 0px;
-        }
-
         .score-controls {
-          border-top-left-radius: 4px;
-          border-bottom-left-radius: 4px;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
         }
       }
     }
