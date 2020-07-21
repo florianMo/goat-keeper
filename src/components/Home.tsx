@@ -18,7 +18,7 @@ export const Home = (): JSX.Element => {
               Nouveau match
             </Button>
             <Button block size="large" type="primary" onClick={(): void => history.push(Urls.GAME_LIST)}>
-              Matchs enregistrés sur cette machine
+              Matchs précédents
             </Button>
           </Col>
         </Row>

@@ -1,6 +1,18 @@
+import { cyan } from '@ant-design/colors';
 import dayjs from 'dayjs';
 import React from 'react';
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  CartesianGrid,
+  Legend,
+  LegendType,
+  Line,
+  LineChart,
+  LineType,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { timeFormat } from 'src/components/App';
 import { Game, GameEventType, GameSet } from 'src/models';
 
@@ -29,6 +41,13 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
     data.push({ time: dayjs(e.at).valueOf(), t1Score: t1LastScore, t2Score: t2LastScore });
   });
 
+  const lineProps = {
+    type: 'monotone' as LineType,
+    strokeWidth: 4,
+    activeDot: { r: 8 },
+    legendType: 'circle' as LegendType,
+  };
+
   return (
     <ResponsiveContainer width="100%" height={400}>
       <LineChart data={data}>
@@ -37,30 +56,14 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
           dataKey="time"
           name="Temps"
           domain={[t1Data[0].time, t1Data[t1Data.length - 1].time]}
-          tickFormatter={(unixTime): string => dayjs(unixTime).format(timeFormat)}
+          tickFormatter={(timestamp: number): string => dayjs(timestamp).format(timeFormat)}
           type="number"
         />
         <YAxis />
-        <Tooltip labelFormatter={(timestamp): string => dayjs(timestamp).format(timeFormat)} />
+        <Tooltip labelFormatter={(timestamp: number): string => dayjs(timestamp).format(timeFormat)} />
         <Legend />
-        <Line
-          type="monotone"
-          dataKey="t1Score"
-          name={props.game.team1.name}
-          strokeWidth={4}
-          stroke="#8884d8"
-          activeDot={{ r: 8 }}
-          legendType="circle"
-        />
-        <Line
-          type="monotone"
-          dataKey="t2Score"
-          name={props.game.team2.name}
-          strokeWidth={4}
-          stroke="#82ca9d"
-          activeDot={{ r: 8 }}
-          legendType="circle"
-        />
+        <Line {...lineProps} dataKey="t1Score" name={props.game.team1.name} stroke={cyan[9]} />
+        <Line {...lineProps} dataKey="t2Score" name={props.game.team2.name} stroke={cyan[6]} />
       </LineChart>
     </ResponsiveContainer>
   );
