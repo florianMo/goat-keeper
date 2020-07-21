@@ -5,12 +5,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { ActionGrid } from 'src/components/ActionGrid';
-import { colLayout } from 'src/components/App';
+import { colLayout, dateFormat } from 'src/components/App';
 import { ScoreEditor } from 'src/components/ScoreEditor';
 import { SetSelector } from 'src/components/SetSelector';
 import { Topbar } from 'src/components/Topbar';
 import { GameEvent } from 'src/models/event';
-import { DATE_FORMAT, MAX_SCORE, MIN_SCORE } from 'src/models/game';
+import { MAX_SCORE, MIN_SCORE } from 'src/models/game';
 import { buildUrl, Urls } from 'src/routing';
 import {
   addEvent,
@@ -66,7 +66,7 @@ export const Game = (): JSX.Element => {
       {game && (
         <StyledGame>
           <Row>
-            <Col className="date">{dayjs(game.at).format(DATE_FORMAT)}</Col>
+            <Col className="date">{dayjs(game.at).format(dateFormat)}</Col>
             <Col className="setSelector">
               <SetSelector
                 game={game}

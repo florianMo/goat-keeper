@@ -23,6 +23,5 @@ export const isWon = (game: Game): boolean => {
   );
 };
 
-export const DATE_FORMAT = 'DD/MM/YYYY';
 export const MAX_SCORE = 99;
 export const MIN_SCORE = 0;

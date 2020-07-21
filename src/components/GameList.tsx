@@ -15,13 +15,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { SetResults } from 'src/components/SetResults';
 import { Topbar } from 'src/components/Topbar';
-import { DATE_FORMAT, isWon } from 'src/models/game';
+import { isWon } from 'src/models/game';
 import { buildUrl, Urls } from 'src/routing';
 import { deleteGame } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
-import { colLayout } from './App';
+import { colLayout, dateFormat } from './App';
 
 const { Title } = Typography;
 
@@ -83,7 +83,7 @@ export const GameList = (): JSX.Element => {
                 >
                   <List.Item.Meta
                     avatar={<FontAwesomeIcon size="3x" icon={isWon(game) ? faCheckCircle : faTimesCircle} />}
-                    title={game.team1.name + ' vs ' + game.team2.name + ', le ' + dayjs(game.at).format(DATE_FORMAT)}
+                    title={game.team1.name + ' vs ' + game.team2.name + ', le ' + dayjs(game.at).format(dateFormat)}
                     description={<SetResults game={game} />}
                   />
                 </List.Item>
