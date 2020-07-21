@@ -1,12 +1,13 @@
-import { blue, cyan, grey, lime, red } from '@ant-design/colors';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { grey } from '@ant-design/colors';
 import { Col, Row } from 'antd';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { ActionGrid } from 'src/components/ActionGrid';
+import { colLayout } from 'src/components/App';
+import { ScoreEditor } from 'src/components/ScoreEditor';
+import { SetSelector } from 'src/components/SetSelector';
 import { Topbar } from 'src/components/Topbar';
 import { GameEvent } from 'src/models/event';
 import { DATE_FORMAT, MAX_SCORE, MIN_SCORE } from 'src/models/game';
@@ -22,28 +23,12 @@ import {
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
-import { colLayout } from './App';
-import { SetSelector } from './SetSelector';
-
-enum LeaderCode {
-  EQ = 'EQ',
-  T1 = 'T1',
-  T2 = 'T2',
-}
-
 export const Game = (): JSX.Element => {
   const { id } = useParams();
   const history = useHistory();
   const game = useSelector((state: RootState) => state.games.entities[id]);
   const dispatch = useDispatch();
   const [set, setSet] = useState(game ? game.sets.length - 1 : 0);
-
-  const leader: LeaderCode =
-    game.sets[set].team1Score > game.sets[set].team2Score
-      ? LeaderCode.T1
-      : game.sets[set].team1Score < game.sets[set].team2Score
-      ? LeaderCode.T2
-      : LeaderCode.EQ;
 
   const handleIncrementT1 = (): void => {
     if (game.sets[set].team1Score < MAX_SCORE) {
@@ -95,30 +80,32 @@ export const Game = (): JSX.Element => {
               <span>{game.team2.name}</span>
             </Col>
             <Col className="header">
-              <div className="side left">
-                <div className="score-controls">
-                  <FontAwesomeIcon icon={faChevronUp} size="lg" onClick={handleIncrementT1} />
-                  <FontAwesomeIcon icon={faChevronDown} size="lg" onClick={handleDecrementT1} />
-                </div>
-                <span className={`score t1 leader${leader}`}>{game.sets[set].team1Score}</span>
-              </div>
-              <div className="side right">
-                <span className={`score t2 leader${leader}`}>{game.sets[set].team2Score}</span>
-                <div className="score-controls">
-                  <FontAwesomeIcon icon={faChevronUp} size="lg" onClick={handleIncrementT2} />
-                  <FontAwesomeIcon icon={faChevronDown} size="lg" onClick={handleDecrementT2} />
-                </div>
-              </div>
+              <ScoreEditor
+                t1Score={game.sets[set].team1Score}
+                t2Score={game.sets[set].team2Score}
+                onIncrementT1={handleIncrementT1}
+                onDecrementT1={handleDecrementT1}
+                onIncrementT2={handleIncrementT2}
+                onDecrementT2={handleDecrementT2}
+              />
             </Col>
             <Col className="actions" {...colLayout}>
-              <button
-                className="link team"
-                onClick={(): void =>
-                  history.push(buildUrl(Urls.TEAM_MANAGEMENT, [{ parameter: 'id', value: game.id }]))
-                }
-              >
-                Gérer mon équipe
-              </button>
+              <div className="links">
+                <button
+                  className="link team"
+                  onClick={(): void =>
+                    history.push(buildUrl(Urls.TEAM_MANAGEMENT, [{ parameter: 'id', value: game.id }]))
+                  }
+                >
+                  Gérer mon équipe
+                </button>
+                <button
+                  className="link stats"
+                  onClick={(): void => history.push(buildUrl(Urls.GAME_STATS, [{ parameter: 'id', value: game.id }]))}
+                >
+                  Statistiques
+                </button>
+              </div>
               <ActionGrid team={game.team1.players} onAddAction={handleAddAction} />
             </Col>
           </Row>
@@ -169,80 +156,17 @@ const StyledGame = styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
-
-    .side {
-      display: flex;
-      align-items: center;
-      user-select: none;
-
-      svg {
-        transition: 0.3s all;
-        color: ${cyan[8]};
-
-        &:hover {
-          color: ${cyan[6]};
-        }
-      }
-
-      .score {
-        width: 80px;
-        text-align: center;
-        font-size: 44px;
-        font-weight: 700;
-        padding: 4px;
-        background-color: ${blue[4]};
-        color: white;
-
-        &.t1.leaderT1,
-        &.t2.leaderT2 {
-          background-color: ${lime[7]};
-        }
-
-        &.t1.leaderT2,
-        &.t2.leaderT1 {
-          background-color: ${red[6]};
-        }
-      }
-
-      .score-controls {
-        width: 40px;
-        padding: 4px;
-        display: flex;
-        flex-direction: column;
-        background-color: ${cyan[8]};
-
-        svg {
-          color: white;
-          margin: 8px;
-          cursor: pointer;
-          transition: 0.3s all;
-
-          &:hover {
-            color: ${cyan[7]};
-          }
-        }
-      }
-
-      &.left {
-        .score-controls {
-          border-top-left-radius: 4px;
-          border-bottom-left-radius: 4px;
-        }
-      }
-
-      &.right {
-        .score-controls {
-          border-top-right-radius: 4px;
-          border-bottom-right-radius: 4px;
-        }
-      }
-    }
   }
 
-  .actions button.team {
-    display: block;
+  .actions .links {
     margin: auto;
+    display: flex;
+    justify-content: center;
     margin-top: 8px;
     margin-bottom: 8px;
+
+    button {
+      margin: 4px;
+    }
   }
 `;
