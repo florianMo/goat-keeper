@@ -1,7 +1,7 @@
 import { blue, cyan, grey, lime, red } from '@ant-design/colors';
-import { faChevronDown, faChevronUp, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Col, Radio, Row } from 'antd';
+import { Col, Row } from 'antd';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
 import { colLayout } from './App';
+import { SetSelector } from './SetSelector';
 
 enum LeaderCode {
   EQ = 'EQ',
@@ -82,19 +83,12 @@ export const Game = (): JSX.Element => {
           <Row>
             <Col className="date">{dayjs(game.at).format(DATE_FORMAT)}</Col>
             <Col className="setSelector">
-              <Radio.Group onChange={(e): void => setSet(e.target.value)} value={set} buttonStyle="solid" size="large">
-                {game.sets.map((set, index) => (
-                  <Radio.Button key={index} value={index}>
-                    {set.team1Score}•{set.team2Score}
-                  </Radio.Button>
-                ))}
-              </Radio.Group>
-
-              {game.sets.length < 5 && (
-                <Button type="primary" onClick={(): any => dispatch(addSet(game))} size="large">
-                  <FontAwesomeIcon icon={faPlus} />
-                </Button>
-              )}
+              <SetSelector
+                game={game}
+                selectedSet={set}
+                onSetChanged={(set: number): any => setSet(set)}
+                onAddSet={(): any => dispatch(addSet(game))}
+              />
             </Col>
             <Col className="team-names">
               <span>{game.team1.name}</span>
@@ -150,16 +144,6 @@ const StyledGame = styled.div`
     width: 100%;
     justify-content: center;
     margin: 12px 0px;
-
-    .ant-radio-button-wrapper {
-      width: 48px;
-      padding: 0px 2px;
-      text-align: center;
-    }
-
-    button {
-      margin-left: 8px;
-    }
   }
 
   .team-names {
