@@ -1,5 +1,10 @@
+import dayjs from 'dayjs';
+
 import { GameEvent } from './event';
 import { Team } from './team';
+
+export const MAX_SCORE = 99;
+export const MIN_SCORE = 0;
 
 export interface Game {
   id: string;
@@ -23,5 +28,10 @@ export const isWon = (game: Game): boolean => {
   );
 };
 
-export const MAX_SCORE = 99;
-export const MIN_SCORE = 0;
+export const duration = (set: GameSet): number => {
+  if (set.events.length < 2) {
+    return 0;
+  }
+
+  return dayjs(set.events[set.events.length - 1].at).diff(set.events[0].at, 'minute');
+};

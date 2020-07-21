@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { colLayout, dateFormat } from 'src/components/App';
 import { SetTimeChart } from 'src/components/SetTimeChart';
 import { Topbar } from 'src/components/Topbar';
+import { duration } from 'src/models';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
@@ -30,7 +31,9 @@ export const GameStats = (): JSX.Element => {
             <Col {...colLayout}>
               {game.sets.map((set, index) => (
                 <React.Fragment key={index}>
-                  <Title level={4}>Set {index + 1}</Title>
+                  <Title level={4}>
+                    Set {index + 1} ({duration(set) + ' minutes'})
+                  </Title>
                   <SetTimeChart game={game} set={set} />
                 </React.Fragment>
               ))}

@@ -1,4 +1,5 @@
 import { blue, lime, red } from '@ant-design/colors';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { ActionButton } from 'src/components/ActionButton';
 import { PlayerButton } from 'src/components/PlayerButton';
@@ -14,13 +15,38 @@ export const ActionGrid: React.FC<ActionGridProps> = (props: ActionGridProps): J
   const [eventClicked, setEventClicked]: [GameEvent | undefined, any] = useState(undefined);
 
   const handleActionClicked = (event: GameEvent): void => {
-    setEventClicked(event);
+    setEventClicked({ ...event, at: dayjs().format() });
   };
 
   const handlePlayerClicked = (player: Player): void => {
     props.onAddAction({ ...(eventClicked as any), player });
     setEventClicked(undefined);
   };
+
+  const positiveEvents = Object.values(GameEventType).filter(
+    (type) =>
+      ![
+        GameEventType.T1_SCORE_DECREMENT,
+        GameEventType.T1_SCORE_INCREMENT,
+        GameEventType.T1_SCORE_UPDATE,
+        GameEventType.T2_SCORE_DECREMENT,
+        GameEventType.T2_SCORE_INCREMENT,
+        GameEventType.T2_SCORE_UPDATE,
+      ].includes(type)
+  );
+
+  const negativeEvents = Object.values(GameEventType).filter(
+    (type) =>
+      ![
+        GameEventType.T1_SCORE_DECREMENT,
+        GameEventType.T1_SCORE_INCREMENT,
+        GameEventType.T1_SCORE_UPDATE,
+        GameEventType.T2_SCORE_DECREMENT,
+        GameEventType.T2_SCORE_INCREMENT,
+        GameEventType.T2_SCORE_UPDATE,
+        GameEventType.ACE,
+      ].includes(type)
+  );
 
   return (
     <StyledActionGrid>
@@ -30,65 +56,14 @@ export const ActionGrid: React.FC<ActionGridProps> = (props: ActionGridProps): J
             <span>Que s&apos;est-il passé ?</span>
           </div>
           <div className="side success">
-            <ActionButton
-              event={{ type: GameEventType.SERVICE, positive: true }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-            <ActionButton
-              event={{ type: GameEventType.RECEPTION, positive: true }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-            <ActionButton
-              event={{ type: GameEventType.PASS, positive: true }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-            <ActionButton
-              event={{ type: GameEventType.ATTACK, positive: true }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-            <ActionButton
-              event={{ type: GameEventType.BLOCK, positive: true }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-            <ActionButton
-              event={{ type: GameEventType.DIG, positive: true }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-            <ActionButton
-              event={{ type: GameEventType.ACE, positive: true }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
+            {positiveEvents.map((type) => (
+              <ActionButton key={type} event={{ type: type, positive: true }} onClick={handleActionClicked} />
+            ))}
           </div>
           <div className="side failure">
-            <ActionButton
-              event={{ type: GameEventType.SERVICE, positive: false }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-
-            <ActionButton
-              event={{ type: GameEventType.RECEPTION, positive: false }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-
-            <ActionButton
-              event={{ type: GameEventType.PASS, positive: false }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-
-            <ActionButton
-              event={{ type: GameEventType.ATTACK, positive: false }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-
-            <ActionButton
-              event={{ type: GameEventType.BLOCK, positive: false }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
-
-            <ActionButton
-              event={{ type: GameEventType.DIG, positive: false }}
-              onClick={(event): void => handleActionClicked(event)}
-            />
+            {negativeEvents.map((type) => (
+              <ActionButton key={type} event={{ type: type, positive: false }} onClick={handleActionClicked} />
+            ))}
           </div>
         </>
       )}
