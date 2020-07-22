@@ -40,3 +40,13 @@ export const t = (type: GameEventType): string => {
 
   return type;
 };
+
+export const gameEvents = [
+  GameEventType.SERVICE,
+  GameEventType.RECEPTION,
+  GameEventType.PASS,
+  GameEventType.ATTACK,
+  GameEventType.BLOCK,
+  GameEventType.DIG,
+  GameEventType.ACE,
+];

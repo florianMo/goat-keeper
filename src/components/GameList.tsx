@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom';
 import { colLayout, dateFormat } from 'src/components/App';
 import { SetResults } from 'src/components/SetResults';
 import { Topbar } from 'src/components/Topbar';
-import { countEvents, displayName, Game, generateDemoGame, sortGames } from 'src/models/game';
+import { countEvents, displayName, Game, sortGames } from 'src/models/game';
 import { buildUrl, Urls } from 'src/routing';
 import { deleteGame } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
@@ -22,9 +22,6 @@ export const GameList = (): JSX.Element => {
   const history = useHistory();
   const dispatch = useDispatch();
   const games = useSelector((state: RootState) => state.games.entities);
-
-  const g = generateDemoGame();
-  console.log(g);
 
   const columns = [
     {
