@@ -24,28 +24,11 @@ export const ActionGrid: React.FC<ActionGridProps> = (props: ActionGridProps): J
   };
 
   const positiveEvents = Object.values(GameEventType).filter(
-    (type) =>
-      ![
-        GameEventType.T1_SCORE_DECREMENT,
-        GameEventType.T1_SCORE_INCREMENT,
-        GameEventType.T1_SCORE_UPDATE,
-        GameEventType.T2_SCORE_DECREMENT,
-        GameEventType.T2_SCORE_INCREMENT,
-        GameEventType.T2_SCORE_UPDATE,
-      ].includes(type)
+    (type) => ![GameEventType.T1_SCORE_UPDATE, GameEventType.T2_SCORE_UPDATE].includes(type)
   );
 
   const negativeEvents = Object.values(GameEventType).filter(
-    (type) =>
-      ![
-        GameEventType.T1_SCORE_DECREMENT,
-        GameEventType.T1_SCORE_INCREMENT,
-        GameEventType.T1_SCORE_UPDATE,
-        GameEventType.T2_SCORE_DECREMENT,
-        GameEventType.T2_SCORE_INCREMENT,
-        GameEventType.T2_SCORE_UPDATE,
-        GameEventType.ACE,
-      ].includes(type)
+    (type) => ![GameEventType.T1_SCORE_UPDATE, GameEventType.T2_SCORE_UPDATE, GameEventType.ACE].includes(type)
   );
 
   return (

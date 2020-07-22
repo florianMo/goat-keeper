@@ -42,10 +42,6 @@ export const gameSlice = createSlice({
       const game = _.cloneDeep(action.payload.game);
       game.sets[action.payload.set].team1Score++;
       game.sets[action.payload.set].events.push({
-        type: GameEventType.T1_SCORE_INCREMENT,
-        at: dayjs().format(),
-      });
-      game.sets[action.payload.set].events.push({
         type: GameEventType.T1_SCORE_UPDATE,
         value: game.sets[action.payload.set].team1Score,
         at: dayjs().format(),
@@ -55,7 +51,6 @@ export const gameSlice = createSlice({
     incrementTeam2: (state: GameState, action: PayloadAction<{ game: Game; set: number }>): void => {
       const game = _.cloneDeep(action.payload.game);
       game.sets[action.payload.set].team2Score++;
-      game.sets[action.payload.set].events.push({ type: GameEventType.T2_SCORE_INCREMENT, at: dayjs().format() });
       game.sets[action.payload.set].events.push({
         type: GameEventType.T2_SCORE_UPDATE,
         value: game.sets[action.payload.set].team2Score,
@@ -66,7 +61,6 @@ export const gameSlice = createSlice({
     decrementTeam1: (state: GameState, action: PayloadAction<{ game: Game; set: number }>): void => {
       const game = _.cloneDeep(action.payload.game);
       game.sets[action.payload.set].team1Score--;
-      game.sets[action.payload.set].events.push({ type: GameEventType.T1_SCORE_DECREMENT, at: dayjs().format() });
       game.sets[action.payload.set].events.push({
         type: GameEventType.T1_SCORE_UPDATE,
         value: game.sets[action.payload.set].team1Score,
@@ -77,7 +71,6 @@ export const gameSlice = createSlice({
     decrementTeam2: (state: GameState, action: PayloadAction<{ game: Game; set: number }>): void => {
       const game = _.cloneDeep(action.payload.game);
       game.sets[action.payload.set].team2Score--;
-      game.sets[action.payload.set].events.push({ type: GameEventType.T2_SCORE_DECREMENT, at: dayjs().format() });
       game.sets[action.payload.set].events.push({
         type: GameEventType.T2_SCORE_UPDATE,
         value: game.sets[action.payload.set].team2Score,

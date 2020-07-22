@@ -50,7 +50,7 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
+      <LineChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           dataKey="time"
