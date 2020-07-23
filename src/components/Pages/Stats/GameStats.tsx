@@ -54,14 +54,14 @@ export const GameStats = (): JSX.Element => {
                   <Title level={4}>
                     Set {index + 1} ({getSetDuration(set) + ' minutes'})
                   </Title>
-                  <SetTimeChart game={game} set={set} />
+                  <SetTimeChart game={game} set={set} isFifthSet={index === 4} />
                 </React.Fragment>
               ))}
             </Col>
 
             <Col xs={24} lg={16}>
               <Title level={4}>Stats équipe</Title>
-              <TeamStats events={allEvents} />
+              <TeamStats events={allEvents} sets={game.sets} />
 
               <Title level={4}>Stats joueurs</Title>
               <TeamTableStats playerStats={playerStats} />

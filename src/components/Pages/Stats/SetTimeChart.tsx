@@ -8,6 +8,7 @@ import { Game, GameEventType, GameSet } from 'src/models';
 interface SetTimeChartProps {
   game: Game;
   set: GameSet;
+  isFifthSet: boolean;
 }
 
 export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartProps) => {
@@ -32,13 +33,16 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
 
   const lineProps = {
     type: 'stepAfter' as LineType,
-    strokeWidth: 2,
+    strokeWidth: 3,
     activeDot: { r: 4 },
     dot: false,
   };
 
+  const yDomain = props.isFifthSet ? [0, 15] : [0, 25];
+  const yTicks = props.isFifthSet ? [0, 5, 10, 15] : [0, 5, 10, 15, 20, 25];
+
   return (
-    <ResponsiveContainer width="100%" height={200}>
+    <ResponsiveContainer width="100%" height={240}>
       <LineChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
@@ -48,7 +52,7 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
           tickFormatter={(timestamp: number): string => dayjs(timestamp).format(timeFormat)}
           type="number"
         />
-        <YAxis domain={[0, 25]} ticks={[5, 10, 15, 20, 25]} width={32} />
+        <YAxis domain={yDomain as any} ticks={yTicks} width={32} />
         <Tooltip labelFormatter={(timestamp: number): string => dayjs(timestamp).format(timeFormat)} />
 
         <Line {...lineProps} dataKey="t1Score" name={props.game.team1.name} stroke={cyan[9]} />

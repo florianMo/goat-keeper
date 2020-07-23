@@ -1,10 +1,11 @@
-import { lime, orange, red, yellow } from '@ant-design/colors';
+import { cyan, lime, orange, red, yellow } from '@ant-design/colors';
 import React from 'react';
-import { GameEvent, gameEvents, GameEventType, readable } from 'src/models';
+import { GameEvent, gameEvents, GameEventType, GameSet, readable } from 'src/models';
 import styled from 'styled-components';
 
 interface TeamStatsProps {
   events: GameEvent[];
+  sets: GameSet[];
 }
 
 export const TeamStats: React.FC<TeamStatsProps> = (props: TeamStatsProps): JSX.Element => {
@@ -21,8 +22,17 @@ export const TeamStats: React.FC<TeamStatsProps> = (props: TeamStatsProps): JSX.
       percentages[e] = getStatPercentage(e);
     });
 
+  const scored = props.sets.reduce((total, set) => total + set.team1Score, 0);
+  const lost = props.sets.reduce((total, set) => total + set.team2Score, 0);
+
   return (
     <StyledTeamStats>
+      <div className="points">
+        <span className="eventType">Points</span>
+        <span className="value">
+          {scored}/{lost}
+        </span>
+      </div>
       {gameEvents.map((e) => (
         <div
           key={e}
@@ -53,15 +63,24 @@ const StyledTeamStats = styled.div`
   flex-wrap: wrap;
 
   div {
-    width: 150px;
+    width: 140px;
+    height: 160px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 8px 24px;
-    margin: 4px 4px;
+    margin: 4px;
 
-    &:first-child {
-      margin-left: 0px;
+    .eventType {
+      font-size: 24px;
+    }
+
+    .value {
+      font-size: 48px;
+    }
+
+    .numbers {
+      opacity: 0.8;
     }
 
     &.xlow {
@@ -76,17 +95,13 @@ const StyledTeamStats = styled.div`
     &.xhigh {
       background-color: ${lime[4]};
     }
-  }
 
-  .eventType {
-    font-size: 24px;
-  }
+    &.points {
+      background-color: ${cyan[6]};
 
-  .value {
-    font-size: 48px;
-  }
-
-  .numbers {
-    opacity: 0.8;
+      .value {
+        font-size: 36px;
+      }
+    }
   }
 `;
