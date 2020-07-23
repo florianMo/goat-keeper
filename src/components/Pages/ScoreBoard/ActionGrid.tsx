@@ -1,4 +1,3 @@
-import { blue, lime, red } from '@ant-design/colors';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { ActionButton } from 'src/components/Pages/Home/ActionButton';
@@ -95,27 +94,9 @@ const StyledActionGrid = styled.div`
 
   .side,
   .players {
-    padding: 16px;
+    padding: 8px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 16px;
-  }
-
-  .side {
-    &.success {
-      background-color: ${lime[1]};
-      border: 2px solid ${lime[3]};
-    }
-
-    &.failure {
-      background-color: ${red[1]};
-      border: 2px solid ${red[3]};
-    }
-  }
-
-  .players {
-    background-color: ${blue[1]};
-    border: 2px solid ${blue[3]};
   }
 `;

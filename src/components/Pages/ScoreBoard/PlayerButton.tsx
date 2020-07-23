@@ -1,4 +1,4 @@
-import { blue } from '@ant-design/colors';
+import { cyan } from '@ant-design/colors';
 import React from 'react';
 import { Player } from 'src/models/player';
 import styled from 'styled-components';
@@ -25,7 +25,7 @@ const StyledPlayerButton = styled.div`
   height: 100px;
   padding: 16px;
   margin: 0px 8px 8px 0px;
-  background-color: ${blue[4]};
+  background-color: ${cyan[6]};
   color: white;
   border-radius: 4px;
   cursor: pointer;

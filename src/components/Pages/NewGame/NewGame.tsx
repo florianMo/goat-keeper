@@ -56,99 +56,101 @@ export const NewGame = (): JSX.Element => {
   return (
     <>
       <Topbar />
-      <StyledNewGame>
-        <Row>
-          <Col {...colLayout}>
-            <Title level={2}>Nouveau match</Title>
-            <Form form={form} layout="vertical" onFinish={handleSubmit}>
-              <Form.Item
-                name="team1"
-                label="Ton équipe"
-                rules={[{ required: true, message: 'requis' }]}
-                validateTrigger={['onChange', 'onBlur']}
-              >
-                <Input size="large" />
-              </Form.Item>
 
-              <Form.Item
-                name="team2"
-                label="L'autre équipe"
-                rules={[{ required: true, message: 'requis' }]}
-                validateTrigger={['onChange', 'onBlur']}
-              >
-                <Input size="large" />
-              </Form.Item>
+      <div style={{ padding: 16 }}>
+        <StyledNewGame>
+          <Row>
+            <Col {...colLayout}>
+              <Title level={2}>Nouveau match</Title>
+              <Form form={form} layout="vertical" onFinish={handleSubmit}>
+                <Form.Item
+                  name="team1"
+                  label="Ton équipe"
+                  rules={[{ required: true, message: 'requis' }]}
+                  validateTrigger={['onChange', 'onBlur']}
+                >
+                  <Input size="large" />
+                </Form.Item>
 
-              <Form.List name="players">
-                {(fields, { add, remove }): JSX.Element => {
-                  return (
-                    <div>
-                      {fields.map((field) => (
-                        <Space key={field.key} align="start">
-                          <Form.Item
-                            {...field}
-                            name={[field.name, 'name']}
-                            fieldKey={[field.fieldKey, 'name']}
-                            rules={[{ required: true, message: 'requis' }]}
-                            label="Nom"
+                <Form.Item
+                  name="team2"
+                  label="L'autre équipe"
+                  rules={[{ required: true, message: 'requis' }]}
+                  validateTrigger={['onChange', 'onBlur']}
+                >
+                  <Input size="large" />
+                </Form.Item>
+
+                <Form.List name="players">
+                  {(fields, { add, remove }): JSX.Element => {
+                    return (
+                      <div>
+                        {fields.map((field) => (
+                          <Space key={field.key} align="start">
+                            <Form.Item
+                              {...field}
+                              name={[field.name, 'name']}
+                              fieldKey={[field.fieldKey, 'name']}
+                              rules={[{ required: true, message: 'requis' }]}
+                              label="Nom"
+                            >
+                              <Input placeholder="nom du joueur" size="large" />
+                            </Form.Item>
+
+                            <Form.Item
+                              {...field}
+                              name={[field.name, 'number']}
+                              fieldKey={[field.fieldKey, 'number']}
+                              rules={[{ required: true, message: 'requis' }]}
+                              label="Numéro"
+                            >
+                              <InputNumber min={0} step="1" size="large" />
+                            </Form.Item>
+
+                            {fields.length > 1 ? (
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                size="lg"
+                                className="dynamic-delete-button"
+                                onClick={(): void => remove(field.name)}
+                              />
+                            ) : null}
+                          </Space>
+                        ))}
+
+                        <Form.Item className="add-player">
+                          <Button
+                            block
+                            type="dashed"
+                            onClick={(): void => {
+                              add();
+                            }}
+                            size="large"
                           >
-                            <Input placeholder="nom du joueur" size="large" />
-                          </Form.Item>
+                            <FontAwesomeIcon icon={faPlus} /> Ajouter un joueur
+                          </Button>
+                        </Form.Item>
+                      </div>
+                    );
+                  }}
+                </Form.List>
 
-                          <Form.Item
-                            {...field}
-                            name={[field.name, 'number']}
-                            fieldKey={[field.fieldKey, 'number']}
-                            rules={[{ required: true, message: 'requis' }]}
-                            label="Numéro"
-                          >
-                            <InputNumber min={0} step="1" size="large" />
-                          </Form.Item>
-
-                          {fields.length > 1 ? (
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              size="lg"
-                              className="dynamic-delete-button"
-                              onClick={(): void => remove(field.name)}
-                            />
-                          ) : null}
-                        </Space>
-                      ))}
-
-                      <Form.Item className="add-player">
-                        <Button
-                          block
-                          type="dashed"
-                          onClick={(): void => {
-                            add();
-                          }}
-                          size="large"
-                        >
-                          <FontAwesomeIcon icon={faPlus} /> Ajouter un joueur
-                        </Button>
-                      </Form.Item>
-                    </div>
-                  );
-                }}
-              </Form.List>
-
-              <Form.Item>
-                <Button block type="primary" htmlType="submit" size="large">
-                  OK
-                </Button>
-              </Form.Item>
-            </Form>
-          </Col>
-        </Row>
-      </StyledNewGame>
+                <Form.Item>
+                  <Button block type="primary" htmlType="submit" size="large">
+                    OK
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+        </StyledNewGame>
+      </div>
     </>
   );
 };
 
 const StyledNewGame = styled.div`
   height: calc(100vh - 80px);
-  margin-top: 24px;
 
   .ant-space {
     display: flex;

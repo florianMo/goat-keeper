@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { colLayout, dateFormat } from 'src/components/App';
+import { dateFormat } from 'src/components/App';
 import { Topbar } from 'src/components/Layout/Topbar';
 import { ActionGrid } from 'src/components/Pages/ScoreBoard/ActionGrid';
 import { ScoreEditor } from 'src/components/Pages/ScoreBoard/ScoreEditor';
@@ -55,8 +55,7 @@ export const Game = (): JSX.Element => {
   };
 
   const handleAddAction = (event: GameEvent): void => {
-    const value = { game, set, event } as any;
-    dispatch(addEvent(value));
+    dispatch(addEvent({ game, set, event }));
   };
 
   return (
@@ -89,7 +88,12 @@ export const Game = (): JSX.Element => {
                 onDecrementT2={handleDecrementT2}
               />
             </Col>
-            <Col className="actions" {...colLayout}>
+            <Col
+              className="actions"
+              xs={{ span: 22, offset: 1 }}
+              md={{ span: 18, offset: 3 }}
+              lg={{ span: 16, offset: 4 }}
+            >
               <div className="links">
                 <button
                   className="link team"
@@ -117,7 +121,6 @@ export const Game = (): JSX.Element => {
 
 const StyledGame = styled.div`
   height: calc(100vh - 80px);
-  padding: 8px;
 
   .date {
     display: flex;

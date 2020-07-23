@@ -62,57 +62,59 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
     <>
       <Topbar />
 
-      {game && (
-        <StyledTeamTable>
-          <Row>
-            <Col {...colLayout}>
-              <Title level={2}>Gérer mon équipe</Title>
-              <button
-                className="link"
-                onClick={(): void => history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: game.id }]))}
-              >
-                Retour au match
-              </button>
-
-              <Table
-                size="small"
-                bordered={true}
-                dataSource={game.team1.players.map((player) => {
-                  return { ...player, key: player.name + ':' + player.number };
-                })}
-                columns={columns}
-                pagination={false}
-              ></Table>
-
-              <Form form={form} layout="horizontal" onFinish={handleAddPlayer}>
-                <Form.Item
-                  name="name"
-                  label="Nom"
-                  rules={[{ required: true, message: 'requis' }]}
-                  validateTrigger={['onChange', 'onBlur']}
+      <div style={{ padding: 16 }}>
+        {game && (
+          <StyledTeamTable>
+            <Row gutter={16}>
+              <Col {...colLayout}>
+                <Title level={2}>Gérer mon équipe</Title>
+                <button
+                  className="link"
+                  onClick={(): void => history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: game.id }]))}
                 >
-                  <Input placeholder="nouveau joueur" />
-                </Form.Item>
+                  Retour au match
+                </button>
 
-                <Form.Item
-                  name="number"
-                  label="Numéro"
-                  rules={[{ required: true, message: 'requis' }]}
-                  validateTrigger={['onChange', 'onBlur']}
-                >
-                  <InputNumber />
-                </Form.Item>
+                <Table
+                  size="small"
+                  bordered={true}
+                  dataSource={game.team1.players.map((player) => {
+                    return { ...player, key: player.name + ':' + player.number };
+                  })}
+                  columns={columns}
+                  pagination={false}
+                ></Table>
 
-                <Form.Item className="button">
-                  <Button type="primary" htmlType="submit">
-                    OK
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Col>
-          </Row>
-        </StyledTeamTable>
-      )}
+                <Form form={form} layout="horizontal" onFinish={handleAddPlayer}>
+                  <Form.Item
+                    name="name"
+                    label="Nom"
+                    rules={[{ required: true, message: 'requis' }]}
+                    validateTrigger={['onChange', 'onBlur']}
+                  >
+                    <Input placeholder="nouveau joueur" />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="number"
+                    label="Numéro"
+                    rules={[{ required: true, message: 'requis' }]}
+                    validateTrigger={['onChange', 'onBlur']}
+                  >
+                    <InputNumber />
+                  </Form.Item>
+
+                  <Form.Item className="button">
+                    <Button type="primary" htmlType="submit">
+                      OK
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Col>
+            </Row>
+          </StyledTeamTable>
+        )}
+      </div>
     </>
   );
 };
