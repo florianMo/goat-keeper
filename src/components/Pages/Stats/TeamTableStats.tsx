@@ -3,7 +3,7 @@ import { lime, orange, red, yellow } from '@ant-design/colors';
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import React from 'react';
-import { StatCell } from 'src/components/StatCell';
+import { StatCell } from 'src/components/Pages/Stats/StatCell';
 import { GameEvent, gameEvents, GameEventType, readable } from 'src/models';
 import styled from 'styled-components';
 

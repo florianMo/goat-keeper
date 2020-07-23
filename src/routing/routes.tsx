@@ -1,9 +1,9 @@
-import { Game } from 'src/components/Game';
-import { GameList } from 'src/components/GameList';
-import { GameStats } from 'src/components/GameStats';
-import { Home } from 'src/components/Home';
-import { NewGame } from 'src/components/NewGame';
-import { TeamManagement } from 'src/components/TeamManagement';
+import { GameList } from 'src/components/Pages/GameList/GameList';
+import { Home } from 'src/components/Pages/Home/Home';
+import { NewGame } from 'src/components/Pages/NewGame/NewGame';
+import { Game } from 'src/components/Pages/ScoreBoard/Game';
+import { GameStats } from 'src/components/Pages/Stats/GameStats';
+import { TeamManagement } from 'src/components/Pages/TeamManagement/TeamManagement';
 
 export interface RouteConfig {
   path: string;

@@ -2,7 +2,7 @@ import { Button, Col, Row } from 'antd';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Topbar } from 'src/components/Topbar';
+import { Topbar } from 'src/components/Layout/Topbar';
 import { generateDemoGame } from 'src/models';
 import { buildUrl, Urls } from 'src/routing';
 import { addGame } from 'src/store/slices/gameSlice';

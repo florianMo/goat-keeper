@@ -6,15 +6,14 @@ import { Button, Col, Form, Input, InputNumber, message, Popconfirm, Row, Table,
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { Topbar } from 'src/components/Topbar';
+import { colLayout } from 'src/components/App';
+import { Topbar } from 'src/components/Layout/Topbar';
 import { Game } from 'src/models/game';
 import { Player } from 'src/models/player';
 import { buildUrl, Urls } from 'src/routing';
 import { addPlayer, deletePlayer } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
-
-import { colLayout } from './App';
 
 const { Title } = Typography;
 

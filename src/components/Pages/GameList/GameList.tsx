@@ -8,8 +8,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { colLayout, dateFormat } from 'src/components/App';
-import { SetResults } from 'src/components/SetResults';
-import { Topbar } from 'src/components/Topbar';
+import { Topbar } from 'src/components/Layout/Topbar';
+import { SetResults } from 'src/components/Pages/GameList/SetResults';
 import { countEvents, displayName, Game, sortGames } from 'src/models/game';
 import { buildUrl, Urls } from 'src/routing';
 import { deleteGame } from 'src/store/slices/gameSlice';
@@ -57,11 +57,7 @@ export const GameList = (): JSX.Element => {
             />
           </Tooltip>
           <Tooltip title="exporter les données du match">
-            <FontAwesomeIcon
-              icon={faFileExport}
-              size="lg"
-              onClick={(): void => history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: game.id }]))}
-            />
+            <FontAwesomeIcon className="disabled" icon={faFileExport} size="lg" />
           </Tooltip>
           <Tooltip title="supprimer le match">
             <Popconfirm
@@ -135,5 +131,10 @@ const StyledGameList = styled.div`
 
   button {
     margin-top: 16px;
+  }
+
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
   }
 `;
