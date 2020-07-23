@@ -35,5 +35,6 @@ const StyledStatCell = styled.div`
 
   svg {
     color: white;
+    margin-left: 4px;
   }
 `;

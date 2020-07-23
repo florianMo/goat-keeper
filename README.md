@@ -34,6 +34,5 @@ You can visualize game statistics :
 
 <div style="display:flex;">
   <div style="margin-right:5px;width:300px;"><img src="public/images/board.png" /></div>
-  <div style="margin-right:5px;width:300px;" ><img src="public/images/scores.png" /></div> 
-  <div style="margin-right:5px;width:300px;"><img src="public/images/player-stats.png" /></div>
+  <div style="margin-right:5px;width:300px;" ><img src="public/images/stats.png" /></div> 
 </div>

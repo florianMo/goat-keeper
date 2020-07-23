@@ -1,18 +1,7 @@
 import { cyan } from '@ant-design/colors';
 import dayjs from 'dayjs';
 import React from 'react';
-import {
-  CartesianGrid,
-  Legend,
-  LegendType,
-  Line,
-  LineChart,
-  LineType,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { CartesianGrid, Line, LineChart, LineType, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { timeFormat } from 'src/components/App';
 import { Game, GameEventType, GameSet } from 'src/models';
 
@@ -42,14 +31,14 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
   });
 
   const lineProps = {
-    type: 'monotone' as LineType,
-    strokeWidth: 4,
-    activeDot: { r: 8 },
-    legendType: 'circle' as LegendType,
+    type: 'stepAfter' as LineType,
+    strokeWidth: 2,
+    activeDot: { r: 4 },
+    dot: false,
   };
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={200}>
       <LineChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
@@ -61,7 +50,7 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
         />
         <YAxis domain={[0, 25]} ticks={[5, 10, 15, 20, 25]} />
         <Tooltip labelFormatter={(timestamp: number): string => dayjs(timestamp).format(timeFormat)} />
-        <Legend />
+
         <Line {...lineProps} dataKey="t1Score" name={props.game.team1.name} stroke={cyan[9]} />
         <Line {...lineProps} dataKey="t2Score" name={props.game.team2.name} stroke={cyan[6]} />
       </LineChart>

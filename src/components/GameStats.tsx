@@ -1,4 +1,4 @@
-import { Col, Row, Tabs, Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,6 @@ import { getSetDuration, getTotalDuration } from 'src/models';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
-const { TabPane } = Tabs;
 const { Title } = Typography;
 
 export const GameStats = (): JSX.Element => {
@@ -32,32 +31,21 @@ export const GameStats = (): JSX.Element => {
             </Col>
           </Row>
 
-          <Row>
-            <Col span={24}>
-              <Tabs defaultActiveKey="1">
-                <TabPane tab="Évolution du score" key="1">
-                  <Row>
-                    {game.sets.map((set, index) => (
-                      <Col xs={24} md={12} lg={12} key={index} className="chartCol">
-                        <Title level={4}>
-                          Set {index + 1} ({getSetDuration(set) + ' minutes'})
-                        </Title>
-                        <SetTimeChart game={game} set={set} />
-                      </Col>
-                    ))}
-                  </Row>
-                </TabPane>
-                <TabPane tab="Stats individuelles" key="2">
-                  <Row>
-                    <Col span={24}>
-                      <TeamTableStats game={game} />
-                    </Col>
-                  </Row>
-                </TabPane>
-                <TabPane tab="Stats d'équipe" key="3">
-                  Tab 3
-                </TabPane>
-              </Tabs>
+          <Row gutter={16}>
+            <Col xs={24} lg={6}>
+              {game.sets.map((set, index) => (
+                <React.Fragment key={index}>
+                  <Title level={4}>
+                    Set {index + 1} ({getSetDuration(set) + ' minutes'})
+                  </Title>
+                  <SetTimeChart game={game} set={set} />
+                </React.Fragment>
+              ))}
+            </Col>
+
+            <Col xs={24} lg={18} xxl={12}>
+              <Title level={4}>Stats joueurs</Title>
+              <TeamTableStats game={game} />
             </Col>
           </Row>
         </StyledGameStats>

@@ -37,7 +37,8 @@ export const TeamTableStats: React.FC<TeamTableStatsProps> = (props: TeamTableSt
       sorter: (a: any, b: any): number => a.key.split(':')[0].localeCompare(b.key.split(':')[0]),
     },
     {
-      title: 'Numéro',
+      title: 'N.',
+      className: 'fit-content',
       render: (stat: any): string => stat.key.split(':')[1],
       sorter: (a: any, b: any): number =>
         parseInt(a.key.split(':')[1], 10) > parseInt(b.key.split(':')[1], 10) ? 1 : -1,
@@ -56,6 +57,15 @@ export const TeamTableStats: React.FC<TeamTableStatsProps> = (props: TeamTableSt
   gameEvents.forEach((eventType) => {
     columns.push({
       title: t(eventType),
+      className: 'fit-content',
+      sorter: (a: any, b: any): number =>
+        eventType !== GameEventType.ACE
+          ? getStatPercentage(a[eventType]) > getStatPercentage(b[eventType])
+            ? 1
+            : -1
+          : a[eventType].length > b[eventType].length
+          ? -1
+          : 1,
       render: (stats: any) => {
         return {
           props: {
@@ -71,47 +81,47 @@ export const TeamTableStats: React.FC<TeamTableStatsProps> = (props: TeamTableSt
 
   return (
     <StyledTeamTableStats>
-      <Table dataSource={playerStats} columns={columns} pagination={false} />
+      <Table bordered dataSource={playerStats} columns={columns} pagination={false} size="small" />
     </StyledTeamTableStats>
   );
 };
 
+const border = '8px solid ';
+const borderRed = red[4];
+const borderOrange = orange[4];
+const borderYellow = yellow[4];
+const borderLime = lime[4];
+
 const StyledTeamTableStats = styled.div`
+  td,
+  th {
+    padding: 4px 4px !important;
+  }
+
   .ant-table-thead > tr > th,
   .ant-table-tbody > tr > td:nth-child(1) {
     font-weight: 700;
   }
-  .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,
-  .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,
-  .ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td,
-  .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td {
-    &.xlow {
-      background-color: ${red[4]};
-    }
-    &.low {
-      background-color: ${orange[4]};
-    }
-    &.high {
-      background-color: ${yellow[4]};
-    }
-    &.xhigh {
-      background-color: ${lime[4]};
-    }
-  }
+
   .xlow {
-    background-color: ${red[4]};
+    border-left: ${border} ${borderRed};
   }
   .low {
-    background-color: ${orange[4]};
+    border-left: ${border} ${borderOrange};
   }
   .high {
-    background-color: ${yellow[4]};
+    border-left: ${border} ${borderYellow};
   }
   .xhigh {
-    background-color: ${lime[4]};
+    border-left: ${border} ${borderLime};
   }
 
   .nobg {
-    background: unset !important;
+    border-left: none;
+  }
+
+  .fit-content {
+    width: 1%;
+    white-space: nowrap;
   }
 `;
