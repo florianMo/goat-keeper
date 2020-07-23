@@ -48,7 +48,7 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
           tickFormatter={(timestamp: number): string => dayjs(timestamp).format(timeFormat)}
           type="number"
         />
-        <YAxis domain={[0, 25]} ticks={[5, 10, 15, 20, 25]} />
+        <YAxis domain={[0, 25]} ticks={[5, 10, 15, 20, 25]} width={32} />
         <Tooltip labelFormatter={(timestamp: number): string => dayjs(timestamp).format(timeFormat)} />
 
         <Line {...lineProps} dataKey="t1Score" name={props.game.team1.name} stroke={cyan[9]} />

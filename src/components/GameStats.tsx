@@ -4,10 +4,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from 'src/components/App';
+import { PlayerRadar } from 'src/components/PlayerRadar';
 import { SetTimeChart } from 'src/components/SetTimeChart';
+import { TeamStats } from 'src/components/TeamStats';
 import { TeamTableStats } from 'src/components/TeamTableStats';
 import { Topbar } from 'src/components/Topbar';
-import { getSetDuration, getTotalDuration } from 'src/models';
+import { gameEvents, getKey, getSetDuration, getTotalDuration, Player } from 'src/models';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
@@ -16,6 +18,20 @@ const { Title } = Typography;
 export const GameStats = (): JSX.Element => {
   const { id } = useParams();
   const game = useSelector((state: RootState) => state.games.entities[id]);
+
+  const allEvents = [...game.sets.map((set) => set.events.filter((event) => gameEvents.includes(event.type)))].flat();
+  const playerStats = game.team1.players.map((player: Player) => {
+    const s: any = { key: getKey(player) };
+
+    gameEvents.forEach((eventType) => {
+      s[eventType] = allEvents.filter(
+        (event) =>
+          event.player.name === player.name && event.player.number === player.number && event.type === eventType
+      );
+    });
+
+    return s;
+  });
 
   return (
     <>
@@ -32,7 +48,7 @@ export const GameStats = (): JSX.Element => {
           </Row>
 
           <Row gutter={16}>
-            <Col xs={24} lg={6}>
+            <Col xs={24} lg={8}>
               {game.sets.map((set, index) => (
                 <React.Fragment key={index}>
                   <Title level={4}>
@@ -43,9 +59,21 @@ export const GameStats = (): JSX.Element => {
               ))}
             </Col>
 
-            <Col xs={24} lg={18} xxl={12}>
+            <Col xs={24} lg={16}>
+              <Title level={4}>Stats équipe</Title>
+              <TeamStats events={allEvents} />
+
               <Title level={4}>Stats joueurs</Title>
-              <TeamTableStats game={game} />
+              <TeamTableStats playerStats={playerStats} />
+
+              <div className="radarWrapper">
+                {game.team1.players.map((player) => (
+                  <PlayerRadar
+                    key={getKey(player)}
+                    playerStats={playerStats.find((stats) => stats.key === getKey(player))}
+                  />
+                ))}
+              </div>
             </Col>
           </Row>
         </StyledGameStats>
@@ -60,5 +88,15 @@ const StyledGameStats = styled.div`
 
   .chartCol {
     padding: 16px;
+  }
+
+  .radarWrapper {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  h4 {
+    margin: 8px 0px;
   }
 `;

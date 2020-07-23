@@ -20,22 +20,22 @@ export enum GameEventType {
   T2_SCORE_UPDATE = 'T2_SCORE_UPDATE',
 }
 
-export const t = (type: GameEventType, short = false): string => {
+export const readable = (type: GameEventType, short = false): string => {
   switch (type) {
     case GameEventType.ACE:
       return 'Ace';
     case GameEventType.ATTACK:
-      return short ? 'Att' : 'Attaque';
+      return short ? 'Att.' : 'Attaque';
     case GameEventType.BLOCK:
-      return short ? 'Bl' : 'Block';
+      return short ? 'Bl.' : 'Block';
     case GameEventType.DIG:
-      return short ? 'Déf' : 'Défense';
+      return short ? 'Déf.' : 'Défense';
     case GameEventType.PASS:
-      return short ? 'Pa' : 'Passe';
+      return short ? 'Pa.' : 'Passe';
     case GameEventType.RECEPTION:
-      return short ? 'Réc' : 'Réception';
+      return short ? 'Réc.' : 'Réception';
     case GameEventType.SERVICE:
-      return short ? 'Ser' : 'Service';
+      return short ? 'Ser.' : 'Service';
   }
 
   return type;

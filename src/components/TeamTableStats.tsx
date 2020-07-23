@@ -4,44 +4,26 @@ import { Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import React from 'react';
 import { StatCell } from 'src/components/StatCell';
-import { GameEvent, gameEvents, GameEventType, getKey, Player, t } from 'src/models';
-import { Game } from 'src/models/game';
+import { GameEvent, gameEvents, GameEventType, readable } from 'src/models';
 import styled from 'styled-components';
 
 interface TeamTableStatsProps {
-  game: Game;
+  playerStats: any;
 }
 
 export const TeamTableStats: React.FC<TeamTableStatsProps> = (props: TeamTableStatsProps): JSX.Element => {
-  const allEvents = [
-    ...props.game.sets.map((set) => set.events.filter((event) => gameEvents.includes(event.type))),
-  ].flat();
-
-  const playerStats = props.game.team1.players.map((player: Player) => {
-    const s: any = { key: getKey(player) };
-
-    gameEvents.forEach((eventType) => {
-      s[eventType] = allEvents.filter(
-        (event) =>
-          event.player.name === player.name && event.player.number === player.number && event.type === eventType
-      );
-    });
-
-    return s;
-  });
-
   const columns: ColumnsType = [
     {
-      title: 'Joueur',
-      render: (stat: any): string => stat.key.split(':')[0],
-      sorter: (a: any, b: any): number => a.key.split(':')[0].localeCompare(b.key.split(':')[0]),
-    },
-    {
-      title: 'N.',
+      title: '#',
       className: 'fit-content',
       render: (stat: any): string => stat.key.split(':')[1],
       sorter: (a: any, b: any): number =>
         parseInt(a.key.split(':')[1], 10) > parseInt(b.key.split(':')[1], 10) ? 1 : -1,
+    },
+    {
+      title: 'Nom',
+      render: (stat: any): string => stat.key.split(':')[0],
+      sorter: (a: any, b: any): number => a.key.split(':')[0].localeCompare(b.key.split(':')[0]),
     },
   ];
 
@@ -56,7 +38,7 @@ export const TeamTableStats: React.FC<TeamTableStatsProps> = (props: TeamTableSt
 
   gameEvents.forEach((eventType) => {
     columns.push({
-      title: t(eventType),
+      title: readable(eventType),
       className: 'fit-content',
       sorter: (a: any, b: any): number =>
         eventType !== GameEventType.ACE
@@ -81,7 +63,7 @@ export const TeamTableStats: React.FC<TeamTableStatsProps> = (props: TeamTableSt
 
   return (
     <StyledTeamTableStats>
-      <Table bordered dataSource={playerStats} columns={columns} pagination={false} size="small" />
+      <Table bordered dataSource={props.playerStats} columns={columns} pagination={false} size="small" />
     </StyledTeamTableStats>
   );
 };

@@ -1,6 +1,6 @@
 import { lime, red } from '@ant-design/colors';
 import React from 'react';
-import { GameEvent, t } from 'src/models';
+import { GameEvent, readable } from 'src/models';
 import styled from 'styled-components';
 
 interface ActionButtonProps {
@@ -15,7 +15,7 @@ export const ActionButton: React.FC<ActionButtonProps> = (props: ActionButtonPro
       type={props.event.type}
       onClick={(): void => props.onClick(props.event)}
     >
-      <div className="label">{t(props.event.type)}</div>
+      <div className="label">{readable(props.event.type)}</div>
     </StyledActionButton>
   );
 };
