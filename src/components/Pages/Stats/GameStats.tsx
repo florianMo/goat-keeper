@@ -52,7 +52,7 @@ export const GameStats = (): JSX.Element => {
               {game.sets.map((set, index) => (
                 <React.Fragment key={index}>
                   <Title level={4}>
-                    Set {index + 1} ({getSetDuration(set) + ' minutes'})
+                    Set {index + 1} : {set.team1Score}•{set.team2Score} ({getSetDuration(set) + ' minutes'})
                   </Title>
                   <SetTimeChart game={game} set={set} isFifthSet={index === 4} />
                 </React.Fragment>
