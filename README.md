@@ -2,6 +2,8 @@
 
 https://florianmo.github.io/goat-keeper/
 
+(don't F5, Github pages deployment does not play well with client side routing)
+
 Goat keeper is a volleyball score and stats tracker. Its main purpose is to play around with various tools. Its secondary purpose is to convince my team mates to actually track score and stats for my volleyball team and blame using big data :).
 
 It is built with :

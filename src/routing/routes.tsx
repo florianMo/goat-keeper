@@ -13,14 +13,6 @@ export interface RouteConfig {
   routes?: RouteConfig[];
 }
 
-export interface MenuElement {
-  path?: string;
-  textKey?: string;
-  icon?: JSX.Element;
-  weight?: number;
-  children?: MenuElement[];
-}
-
 export const Urls = {
   HOME: '/home',
   NEW_GAME: '/new-game',
@@ -32,45 +24,14 @@ export const Urls = {
 };
 
 export const routes: RouteConfig[] = [
-  {
-    path: Urls.HOME,
-    exact: true,
-    component: Home,
-  },
-  {
-    path: Urls.NEW_GAME,
-    exact: true,
-    component: NewGame,
-  },
-  {
-    path: Urls.GAME,
-    exact: true,
-    component: Game,
-  },
-  {
-    path: Urls.GAME_LIST,
-    exact: true,
-    component: GameList,
-  },
-  {
-    path: Urls.GAME_STATS,
-    exact: true,
-    component: GameStats,
-  },
-  {
-    path: Urls.TEAM_MANAGEMENT,
-    exact: true,
-    component: TeamManagement,
-  },
-  {
-    path: Urls.DEFAULT,
-    redirectTo: Urls.HOME,
-  },
-  {
-    path: '',
-    exact: true,
-    redirectTo: Urls.HOME,
-  },
+  { path: Urls.HOME, exact: true, component: Home },
+  { path: Urls.NEW_GAME, exact: true, component: NewGame },
+  { path: Urls.GAME, exact: true, component: Game },
+  { path: Urls.GAME_LIST, exact: true, component: GameList },
+  { path: Urls.GAME_STATS, exact: true, component: GameStats },
+  { path: Urls.TEAM_MANAGEMENT, exact: true, component: TeamManagement },
+  { path: Urls.DEFAULT, redirectTo: Urls.HOME },
+  { path: '', exact: true, redirectTo: Urls.HOME },
 ];
 
 interface UrlParameter {
