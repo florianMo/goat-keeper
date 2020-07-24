@@ -1,15 +1,16 @@
 import { Col, Row, Typography } from 'antd';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from 'src/components/App';
 import { Topbar } from 'src/components/Layout/Topbar';
 import { PlayerRadar } from 'src/components/Pages/Stats/PlayerRadar';
+import { SetMultipleSelector } from 'src/components/Pages/Stats/SetMultipleSelector';
 import { SetTimeChart } from 'src/components/Pages/Stats/SetTimeChart';
 import { TeamStats } from 'src/components/Pages/Stats/TeamStats';
 import { TeamTableStats } from 'src/components/Pages/Stats/TeamTableStats';
-import { gameEvents, getKey, getSetDuration, getTotalDuration, Player } from 'src/models';
+import { GameEvent, gameEvents, getKey, getSetDuration, getTotalDuration, Player } from 'src/models';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
@@ -17,36 +18,62 @@ const { Title } = Typography;
 
 export const GameStats = (): JSX.Element => {
   const { id } = useParams();
+  const [selectedSets, setSelectedSets]: [string[], any] = useState([]);
   const game = useSelector((state: RootState) => state.games.entities[id]);
 
-  const allEvents = [...game.sets.map((set) => set.events.filter((event) => gameEvents.includes(event.type)))].flat();
-  const playerStats = game.team1.players.map((player: Player) => {
-    const s: any = { key: getKey(player) };
+  useEffect(() => {
+    setSelectedSets(Object.keys(game.sets).map((s) => 'Set ' + (parseInt(s, 10) + 1)));
+  }, [game]);
 
-    gameEvents.forEach((eventType) => {
-      s[eventType] = allEvents.filter(
-        (event) =>
-          event.player.name === player.name && event.player.number === player.number && event.type === eventType
-      );
+  const getAllEvents = (): GameEvent[] => {
+    return [
+      ...game.sets
+        .filter((s, i) => selectedSets.includes('Set ' + (i + 1)))
+        .map((set) => set.events.filter((event) => gameEvents.includes(event.type))),
+    ].flat();
+  };
+
+  const getPlayerStats = (): any => {
+    return game.team1.players.map((player: Player) => {
+      const s: any = { key: getKey(player) };
+
+      gameEvents.forEach((eventType) => {
+        s[eventType] = getAllEvents().filter(
+          (event) =>
+            event.player.name === player.name && event.player.number === player.number && event.type === eventType
+        );
+      });
+
+      return s;
     });
+  };
 
-    return s;
-  });
+  const handleSelectedSetsChanged = (values: string[]): void => {
+    const newSelectedSets =
+      values.length === 0 ? Object.keys(game.sets).map((s) => 'Set ' + (parseInt(s, 10) + 1)) : values;
+    setSelectedSets(newSelectedSets);
+  };
+
+  const setsInfo = (): string => {
+    return selectedSets.length === 5 ? '(match complet)' : '(sets ' + selectedSets.map((s) => s[4]).join(',') + ')';
+  };
 
   return (
     <>
       <Topbar />
+
       {game && (
         <StyledGameStats>
           <Row>
-            <Col>
+            <Col className="setSelector">
               <Title level={2}>
                 {game.team1.name} vs {game.team2.name}, le {dayjs(game.at).format(dateFormat)} (
                 {getTotalDuration(game) + ' minutes'})
               </Title>
+
+              <SetMultipleSelector game={game} selectedSets={selectedSets} onSetsChanged={handleSelectedSetsChanged} />
             </Col>
           </Row>
-
           <Row gutter={16}>
             <Col xs={24} lg={8}>
               {game.sets.map((set, index) => (
@@ -60,17 +87,17 @@ export const GameStats = (): JSX.Element => {
             </Col>
 
             <Col xs={24} lg={16}>
-              <Title level={4}>Stats équipe</Title>
-              <TeamStats events={allEvents} sets={game.sets} />
+              <Title level={4}>Stats équipe {setsInfo()}</Title>
+              <TeamStats events={getAllEvents()} sets={game.sets} />
 
-              <Title level={4}>Stats joueurs</Title>
-              <TeamTableStats playerStats={playerStats} />
+              <Title level={4}>Stats joueurs {setsInfo()}</Title>
+              <TeamTableStats playerStats={getPlayerStats()} />
 
               <div className="radarWrapper">
                 {game.team1.players.map((player) => (
                   <PlayerRadar
                     key={getKey(player)}
-                    playerStats={playerStats.find((stats) => stats.key === getKey(player))}
+                    playerStats={getPlayerStats().find((stats) => stats.key === getKey(player))}
                   />
                 ))}
               </div>
@@ -84,7 +111,13 @@ export const GameStats = (): JSX.Element => {
 
 const StyledGameStats = styled.div`
   height: calc(100vh - 80px);
-  padding: 8px;
+  padding: 16px;
+
+  .setSelector {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
 
   .chartCol {
     padding: 16px;

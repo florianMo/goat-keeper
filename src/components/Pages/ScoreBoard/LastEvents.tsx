@@ -5,7 +5,7 @@ import { Typography } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { timeFormat } from 'src/components/App';
-import { GameEvent, readable } from 'src/models';
+import { GameEvent, gameEvents, readable } from 'src/models';
 import styled from 'styled-components';
 
 const { Title } = Typography;
@@ -16,7 +16,8 @@ interface LastEventsProps {
 }
 
 export const LastEvents: React.FC<LastEventsProps> = (props: LastEventsProps): JSX.Element => {
-  const eventsToDisplay = props.events.slice(Math.max(props.events.length - 10, 1)).reverse();
+  const events = props.events.filter((e) => gameEvents.includes(e.type));
+  const eventsToDisplay = events.slice(Math.max(events.length - 10, 1)).reverse();
 
   return (
     <StyledLastEvents>

@@ -78,36 +78,35 @@ export const GameList = (): JSX.Element => {
     <>
       <Topbar />
 
-      <div style={{ padding: 16 }}>
-        <StyledGameList>
-          <Row>
-            <Col {...colLayout}>
-              <Title level={2}>Matchs enregistrés sur ce navigateur</Title>
-              <Table
-                size="small"
-                bordered={true}
-                dataSource={Object.values(games).map((game) => {
-                  return { ...game, key: game.id };
-                })}
-                columns={columns}
-                pagination={false}
-              ></Table>
-            </Col>
+      <StyledGameList>
+        <Row>
+          <Col {...colLayout}>
+            <Title level={2}>Matchs enregistrés sur ce navigateur</Title>
+            <Table
+              size="small"
+              bordered={true}
+              dataSource={Object.values(games).map((game) => {
+                return { ...game, key: game.id };
+              })}
+              columns={columns}
+              pagination={false}
+            ></Table>
+          </Col>
 
-            <Col className="button" {...colLayout}>
-              <Button size="large" type="primary" block onClick={(): void => history.push(Urls.NEW_GAME)}>
-                Nouveau match
-              </Button>
-            </Col>
-          </Row>
-        </StyledGameList>
-      </div>
+          <Col className="button" {...colLayout}>
+            <Button size="large" type="primary" block onClick={(): void => history.push(Urls.NEW_GAME)}>
+              Nouveau match
+            </Button>
+          </Col>
+        </Row>
+      </StyledGameList>
     </>
   );
 };
 
 const StyledGameList = styled.div`
   height: calc(100vh - 80px);
+  padding: 16px;
 
   .actions {
     svg {

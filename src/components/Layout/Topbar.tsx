@@ -37,7 +37,6 @@ const StyledTopbar = styled.div`
   align-items: center;
   height: 80px;
   background: linear-gradient(to right, ${cyan[9]}, ${cyan[6]});
-  margin-bottom: 16px;
 
   > span {
     color: white;

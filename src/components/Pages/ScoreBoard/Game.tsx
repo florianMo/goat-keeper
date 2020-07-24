@@ -131,6 +131,7 @@ export const Game = (): JSX.Element => {
 
 const StyledGame = styled.div`
   height: calc(100vh - 80px);
+  padding: 16px;
 
   .date {
     display: flex;
