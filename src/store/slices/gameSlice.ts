@@ -88,6 +88,13 @@ export const gameSlice = createSlice({
       game.sets[action.payload.set].events.push(action.payload.event);
       gameAdapter.updateOne(state, { id: game.id, changes: game });
     },
+    removeEvent: (state: GameState, action: PayloadAction<{ game: Game; set: number; event: GameEvent }>): void => {
+      const game = _.cloneDeep(action.payload.game);
+      game.sets[action.payload.set].events = game.sets[action.payload.set].events.filter(
+        (e) => !_.isEqual(e, action.payload.event)
+      );
+      gameAdapter.updateOne(state, { id: game.id, changes: game });
+    },
   },
 });
 
@@ -102,4 +109,5 @@ export const {
   deletePlayer,
   incrementTeam1,
   incrementTeam2,
+  removeEvent,
 } = gameSlice.actions;

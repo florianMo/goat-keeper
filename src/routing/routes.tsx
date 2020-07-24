@@ -22,13 +22,13 @@ export interface MenuElement {
 }
 
 export const Urls = {
-  HOME: process.env.PUBLIC_URL + '/home',
-  NEW_GAME: process.env.PUBLIC_URL + '/new-game',
-  GAME_LIST: process.env.PUBLIC_URL + '/game-list',
-  GAME: process.env.PUBLIC_URL + '/game/:id',
-  GAME_STATS: process.env.PUBLIC_URL + '/game/:id/stats',
-  TEAM_MANAGEMENT: process.env.PUBLIC_URL + '/game/:id/team',
-  DEFAULT: process.env.PUBLIC_URL + '/:anything_else',
+  HOME: '/home',
+  NEW_GAME: '/new-game',
+  GAME_LIST: '/game-list',
+  GAME: '/game/:id',
+  GAME_STATS: '/game/:id/stats',
+  TEAM_MANAGEMENT: '/game/:id/team',
+  DEFAULT: '/:anything_else',
 };
 
 export const routes: RouteConfig[] = [

@@ -1,5 +1,5 @@
 import { grey } from '@ant-design/colors';
-import { Col, Row } from 'antd';
+import { Col, message, Row } from 'antd';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { dateFormat } from 'src/components/App';
 import { Topbar } from 'src/components/Layout/Topbar';
 import { ActionGrid } from 'src/components/Pages/ScoreBoard/ActionGrid';
+import { LastEvents } from 'src/components/Pages/ScoreBoard/LastEvents';
 import { ScoreEditor } from 'src/components/Pages/ScoreBoard/ScoreEditor';
 import { SetSelector } from 'src/components/Pages/ScoreBoard/SetSelector';
 import { GameEvent } from 'src/models/event';
@@ -19,6 +20,7 @@ import {
   decrementTeam2,
   incrementTeam1,
   incrementTeam2,
+  removeEvent,
 } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
@@ -56,6 +58,12 @@ export const Game = (): JSX.Element => {
 
   const handleAddAction = (event: GameEvent): void => {
     dispatch(addEvent({ game, set, event }));
+    message.success('Evénement ajouté');
+  };
+
+  const handleDeleteEvent = (event: GameEvent): void => {
+    dispatch(removeEvent({ game, set, event }));
+    message.success('Evénement supprimé');
   };
 
   return (
@@ -74,7 +82,7 @@ export const Game = (): JSX.Element => {
                 onAddSet={(): any => dispatch(addSet(game))}
               />
             </Col>
-            <Col className="team-names">
+            <Col className="teamNames">
               <span>{game.team1.name}</span>
               <span>{game.team2.name}</span>
             </Col>
@@ -111,6 +119,8 @@ export const Game = (): JSX.Element => {
                 </button>
               </div>
               <ActionGrid team={game.team1.players} onAddAction={handleAddAction} />
+
+              <LastEvents onDeleteEvent={handleDeleteEvent} events={game.sets[set].events} />
             </Col>
           </Row>
         </StyledGame>
@@ -136,7 +146,7 @@ const StyledGame = styled.div`
     margin: 12px 0px;
   }
 
-  .team-names {
+  .teamNames {
     display: flex;
     width: 100%;
 
