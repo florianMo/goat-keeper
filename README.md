@@ -1,12 +1,10 @@
 # Goat Keeper 🏐 🐐
 
-https://florianmo.github.io/goat-keeper/
+https://goat-keeper.net/ (free to use, data is stored in local storage).
 
-(don't F5, Github pages deployment does not play well with client side routing)
+Goat keeper is a volleyball score and stats tracker. Its main purpose is to play around with various React tools. Its secondary purpose is to convince my team mates to actually track score and stats for my volleyball team :).
 
-Goat keeper is a volleyball score and stats tracker. Its main purpose is to play around with various tools. Its secondary purpose is to convince my team mates to actually track score and stats for my volleyball team and blame using big data :).
-
-It is built with :
+It is built upon :
 
 - [TypeScript](https://www.typescriptlang.org/)
 - [React](https://reactjs.org/)
