@@ -8,7 +8,7 @@ export const dateFormat = 'DD/MM/YYYY';
 
 export const App = (): JSX.Element => {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
       <Switch>
         {routes.map((route, index) => (
           <RouteAndSubRoute key={index} {...route} />

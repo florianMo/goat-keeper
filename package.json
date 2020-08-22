@@ -1,7 +1,6 @@
 {
   "name": "goat-keeper",
   "version": "0.1.0",
-  "homepage": "https://florianmo.github.io/goat-keeper",
   "private": true,
   "dependencies": {
     "@ant-design/colors": "^4.0.4",
