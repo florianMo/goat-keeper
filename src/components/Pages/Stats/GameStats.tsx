@@ -91,8 +91,6 @@ export const GameStats = (): JSX.Element => {
               <TeamStats events={getAllEvents()} sets={game.sets} />
 
               <Title level={4}>Stats joueurs {setsInfo()}</Title>
-              <TeamTableStats playerStats={getPlayerStats()} />
-
               <div className="radarWrapper">
                 {game.team1.players.map((player) => (
                   <PlayerRadar
@@ -101,6 +99,7 @@ export const GameStats = (): JSX.Element => {
                   />
                 ))}
               </div>
+              <TeamTableStats playerStats={getPlayerStats()} />
             </Col>
           </Row>
         </StyledGameStats>
