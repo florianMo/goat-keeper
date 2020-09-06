@@ -1,5 +1,7 @@
 import { grey } from '@ant-design/colors';
-import { Col, message, Row } from 'antd';
+import { faChartLine, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Col, message, Row } from 'antd';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -103,20 +105,22 @@ export const Game = (): JSX.Element => {
               lg={{ span: 16, offset: 4 }}
             >
               <div className="links">
-                <button
-                  className="link team"
+                <Button
+                  icon={<FontAwesomeIcon icon={faUsers} />}
+                  type="primary"
                   onClick={(): void =>
                     history.push(buildUrl(Urls.TEAM_MANAGEMENT, [{ parameter: 'id', value: game.id }]))
                   }
                 >
-                  Gérer mon équipe
-                </button>
-                <button
-                  className="link stats"
+                  Équipe
+                </Button>
+                <Button
+                  icon={<FontAwesomeIcon icon={faChartLine} />}
+                  type="primary"
                   onClick={(): void => history.push(buildUrl(Urls.GAME_STATS, [{ parameter: 'id', value: game.id }]))}
                 >
                   Statistiques
-                </button>
+                </Button>
               </div>
               <ActionGrid team={game.team1.players} onAddAction={handleAddAction} />
 

@@ -1,6 +1,14 @@
 /* eslint-disable react/display-name */
 import { cyan, red } from '@ant-design/colors';
-import { faChartLine, faFileExport, faFileImport, faPlus, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChartLine,
+  faFileExport,
+  faFileImport,
+  faPlus,
+  faRandom,
+  faSearch,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, message, Popconfirm, Row, Table, Tooltip, Typography, Upload } from 'antd';
 import dayjs from 'dayjs';
@@ -142,7 +150,9 @@ export const GameList = (): JSX.Element => {
                   Importer un match
                 </Button>
               </Upload>
-              <Button onClick={handleGenerateDemoGame}>Générer un match démo</Button>
+              <Button icon={<FontAwesomeIcon icon={faRandom} />} onClick={handleGenerateDemoGame}>
+                Générer un match démo
+              </Button>
             </div>
 
             <Table

@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { cyan, red } from '@ant-design/colors';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faChartLine, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Form, Input, InputNumber, message, Popconfirm, Row, Table, Tooltip, Typography } from 'antd';
 import React from 'react';
@@ -68,12 +68,23 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
             <Row gutter={16}>
               <Col {...colLayout}>
                 <Title level={2}>Gérer mon équipe</Title>
-                <button
-                  className="link"
-                  onClick={(): void => history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: game.id }]))}
-                >
-                  Retour au match
-                </button>
+
+                <div className="buttons">
+                  <Button
+                    type="primary"
+                    icon={<FontAwesomeIcon icon={faArrowLeft} />}
+                    onClick={(): void => history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: game.id }]))}
+                  >
+                    Retour au match
+                  </Button>
+                  <Button
+                    type="primary"
+                    icon={<FontAwesomeIcon icon={faChartLine} />}
+                    onClick={(): void => history.push(buildUrl(Urls.GAME_STATS, [{ parameter: 'id', value: game.id }]))}
+                  >
+                    Statistiques
+                  </Button>
+                </div>
 
                 <Table
                   size="small"
@@ -144,11 +155,20 @@ const StyledTeamTable = styled.div`
       }
 
       &[data-icon='trash']:hover {
-      color: ${red[5]};
+        color: ${red[5]};
+      }
     }
   }
 
   .button .ant-form-item-control-input-content {
     text-align: right;
+  }
+
+  .buttons {
+    margin-bottom: 8px;
+
+    > * {
+      margin-right: 8px;
+    }
   }
 `;

@@ -15,12 +15,7 @@ export const SetMultipleSelector: React.FC<SetMultipleSelectorProps> = (
   props: SetMultipleSelectorProps
 ): JSX.Element => (
   <StyledSetMultipleSelector>
-    <Select
-      mode="multiple"
-      size="large"
-      onChange={(values): void => props.onSetsChanged(values)}
-      value={props.selectedSets}
-    >
+    <Select mode="multiple" onChange={(values): void => props.onSetsChanged(values)} value={props.selectedSets}>
       {props.game.sets.map((set, index) => (
         <Option key={index} value={'Set ' + (index + 1)}>
           Set {index + 1}

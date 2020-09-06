@@ -1,8 +1,10 @@
-import { Col, Row, Typography } from 'antd';
+import { faArrowLeft, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Col, Row, Typography } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { dateFormat } from 'src/components/App';
 import { Topbar } from 'src/components/Layout/Topbar';
 import { PlayerRadar } from 'src/components/Pages/Stats/PlayerRadar';
@@ -11,6 +13,7 @@ import { SetTimeChart } from 'src/components/Pages/Stats/SetTimeChart';
 import { TeamStats } from 'src/components/Pages/Stats/TeamStats';
 import { TeamTableStats } from 'src/components/Pages/Stats/TeamTableStats';
 import { GameEvent, gameEvents, getKey, getSetDuration, getTotalDuration, Player } from 'src/models';
+import { buildUrl, Urls } from 'src/routing';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
@@ -18,6 +21,7 @@ const { Title } = Typography;
 
 export const GameStats = (): JSX.Element => {
   const { id } = useParams();
+  const history = useHistory();
   const [selectedSets, setSelectedSets]: [string[], any] = useState([]);
   const game = useSelector((state: RootState) => state.games.entities[id]);
 
@@ -65,13 +69,36 @@ export const GameStats = (): JSX.Element => {
       {game && (
         <StyledGameStats>
           <Row>
-            <Col className="setSelector">
+            <Col>
               <Title level={2}>
                 {game.team1.name} vs {game.team2.name}, le {dayjs(game.at).format(dateFormat)} (
                 {getTotalDuration(game) + ' minutes'})
               </Title>
 
-              <SetMultipleSelector game={game} selectedSets={selectedSets} onSetsChanged={handleSelectedSetsChanged} />
+              <div className="buttons">
+                <Button
+                  type="primary"
+                  icon={<FontAwesomeIcon icon={faArrowLeft} />}
+                  onClick={(): void => history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: game.id }]))}
+                >
+                  Retour au match
+                </Button>
+                <Button
+                  type="primary"
+                  icon={<FontAwesomeIcon icon={faUsers} />}
+                  onClick={(): void =>
+                    history.push(buildUrl(Urls.TEAM_MANAGEMENT, [{ parameter: 'id', value: game.id }]))
+                  }
+                >
+                  Équipe
+                </Button>
+
+                <SetMultipleSelector
+                  game={game}
+                  selectedSets={selectedSets}
+                  onSetsChanged={handleSelectedSetsChanged}
+                />
+              </div>
             </Col>
           </Row>
           <Row gutter={16}>
@@ -112,12 +139,6 @@ const StyledGameStats = styled.div`
   height: calc(100vh - 80px);
   padding: 16px;
 
-  .setSelector {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-
   .chartCol {
     padding: 16px;
   }
@@ -130,5 +151,15 @@ const StyledGameStats = styled.div`
 
   h4 {
     margin: 8px 0px;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+
+    > * {
+      margin-right: 8px;
+    }
   }
 `;
