@@ -27,3 +27,7 @@ button.link {
   margin: 0;
   padding: 0;
 }
+
+button svg {
+  margin-right: 8px;
+}

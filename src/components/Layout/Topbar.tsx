@@ -13,7 +13,7 @@ export const Topbar = (): JSX.Element => {
 
   return (
     <StyledTopbar>
-      <span className="brand" onClick={(): void => history.push(Urls.HOME)}>
+      <span className="brand" onClick={(): void => history.push(Urls.GAME_LIST)}>
         Goat keeper
       </span>
       <div className="actions">

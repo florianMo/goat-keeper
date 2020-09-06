@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
-import { ActionButton } from 'src/components/Pages/Home/ActionButton';
+import { ActionButton } from 'src/components/Pages/ScoreBoard/ActionButton';
 import { PlayerButton } from 'src/components/Pages/ScoreBoard/PlayerButton';
 import { GameEvent, GameEventType, Player } from 'src/models';
 import styled from 'styled-components';

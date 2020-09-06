@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import slug from 'limax';
 import { GameEvent, gameEvents, GameEventType, Player, Team } from 'src/models';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -68,6 +69,7 @@ export const generateDemoGame = (): Game => {
 
   let currentTime = dayjs();
   let setIndex = 0;
+
   do {
     game.sets.push({ team1Score: 0, team2Score: 0, events: [], at: currentTime.format() });
 
@@ -118,3 +120,24 @@ export const generateDemoGame = (): Game => {
 };
 
 export const getRandomBetween = (min: number, max: number): number => +(Math.random() * (max - min) + min).toFixed(0);
+
+export const getFileName = (game: Game): string => {
+  return slug([game.team1.name, game.team2.name, game.at].join(' ')) + '.json';
+};
+
+export const isValidGame = (game: Game): boolean => {
+  const gameValid =
+    Boolean(game.at) &&
+    game.at !== '' &&
+    Boolean(game.team1) &&
+    Boolean(game.team1.name) &&
+    game.team1.players.length > 0 &&
+    Boolean(game.team2) &&
+    Boolean(game.team2.name);
+
+  const setsValid: boolean[] = game.sets.map((set) => {
+    return Boolean(set.at && set.at !== '' && set.events && set.team1Score && set.team2Score);
+  });
+
+  return gameValid && !setsValid.includes(false);
+};

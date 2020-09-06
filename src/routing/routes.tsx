@@ -1,5 +1,4 @@
 import { GameList } from 'src/components/Pages/GameList/GameList';
-import { Home } from 'src/components/Pages/Home/Home';
 import { NewGame } from 'src/components/Pages/NewGame/NewGame';
 import { Game } from 'src/components/Pages/ScoreBoard/Game';
 import { GameStats } from 'src/components/Pages/Stats/GameStats';
@@ -14,7 +13,6 @@ export interface RouteConfig {
 }
 
 export const Urls = {
-  HOME: '/home',
   NEW_GAME: '/new-game',
   GAME_LIST: '/game-list',
   GAME: '/game/:id',
@@ -24,14 +22,13 @@ export const Urls = {
 };
 
 export const routes: RouteConfig[] = [
-  { path: Urls.HOME, exact: true, component: Home },
   { path: Urls.NEW_GAME, exact: true, component: NewGame },
   { path: Urls.GAME, exact: true, component: Game },
   { path: Urls.GAME_LIST, exact: true, component: GameList },
   { path: Urls.GAME_STATS, exact: true, component: GameStats },
   { path: Urls.TEAM_MANAGEMENT, exact: true, component: TeamManagement },
-  { path: Urls.DEFAULT, redirectTo: Urls.HOME },
-  { path: '', exact: true, redirectTo: Urls.HOME },
+  { path: Urls.DEFAULT, redirectTo: Urls.GAME_LIST },
+  { path: '', exact: true, redirectTo: Urls.GAME_LIST },
 ];
 
 interface UrlParameter {
