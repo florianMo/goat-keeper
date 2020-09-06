@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { RouteAndSubRoute, routes } from 'src/routing';
 
-export const colLayout = { xs: { span: 24 }, md: { span: 18 }, lg: { span: 14 } };
+export const colLayout = { xs: { span: 24 }, lg: { span: 20 } };
 export const timeFormat = 'HH[h]mm';
 export const dateFormat = 'DD/MM/YYYY';
 
