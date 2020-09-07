@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, message, Row } from 'antd';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
+import ReactGa from 'react-ga';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { dateFormat } from 'src/components/App';
@@ -61,6 +62,18 @@ export const Game = (): JSX.Element => {
   const handleAddAction = (event: GameEvent): void => {
     dispatch(addEvent({ game, set, event }));
     message.success('Evénement ajouté');
+
+    let value = 0;
+    if (event.positive !== undefined) {
+      value = event.positive ? 1 : -1;
+    }
+
+    ReactGa.event({
+      category: 'All',
+      action: 'Event created',
+      label: event.type,
+      value: value,
+    });
   };
 
   const handleDeleteEvent = (event: GameEvent): void => {

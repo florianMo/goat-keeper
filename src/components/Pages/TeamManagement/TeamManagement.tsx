@@ -4,6 +4,7 @@ import { faArrowLeft, faChartLine, faTrash } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Form, Input, InputNumber, message, Popconfirm, Row, Table, Tooltip, Typography } from 'antd';
 import React from 'react';
+import ReactGa from 'react-ga';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { colLayout } from 'src/components/App';
@@ -28,6 +29,29 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
   const game = useSelector((state: RootState) => state.games.entities[id]);
   const [form] = Form.useForm();
 
+  const handleAddPlayer = (player: Player): void => {
+    if (game.team1.players.some((p) => p.name === player.name && p.number === player.number)) {
+      message.error('Cette personne existe déjà');
+    } else {
+      dispatch(addPlayer({ game: game, player: player }));
+      form.resetFields();
+
+      ReactGa.event({
+        category: 'All',
+        action: 'Player added',
+      });
+    }
+  };
+
+  const handleDeletePlayer = (game: Game, playerKey: string): void => {
+    dispatch(deletePlayer({ game: game, playerKey: playerKey }));
+
+    ReactGa.event({
+      category: 'All',
+      action: 'Player deleted',
+    });
+  };
+
   const columns = [
     { title: 'Nom', dataIndex: 'name', sorter: (a: Player, b: Player): number => a.name.localeCompare(b.name) },
     { title: 'Numéro', dataIndex: 'number', sorter: (a: Player, b: Player): number => a.number - b.number },
@@ -38,7 +62,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
         <Tooltip key="delete" title="supprimer cette personne">
           <Popconfirm
             title={'sûr ?'}
-            onConfirm={(): any => dispatch(deletePlayer({ game: game, playerKey: record.key }))}
+            onConfirm={(): any => handleDeletePlayer(game, record.key)}
             okText="Oui"
             cancelText="Non en fait"
           >
@@ -48,15 +72,6 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
       ),
     },
   ];
-
-  const handleAddPlayer = (player: Player): void => {
-    if (game.team1.players.some((p) => p.name === player.name && p.number === player.number)) {
-      message.error('Cette personne existe déjà');
-    } else {
-      dispatch(addPlayer({ game: game, player: player }));
-      form.resetFields();
-    }
-  };
 
   return (
     <>

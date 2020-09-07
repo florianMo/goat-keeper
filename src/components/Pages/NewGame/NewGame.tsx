@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, Form, Input, InputNumber, Row, Space, Typography } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
+import ReactGa from 'react-ga';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { colLayout } from 'src/components/App';
@@ -50,6 +51,12 @@ export const NewGame = (): JSX.Element => {
     ];
 
     dispatch(addGame({ id: uuid, team1: team1, team2: team2, sets: sets, at: dayjs().format() }));
+
+    ReactGa.event({
+      category: 'All',
+      action: 'Game created',
+    });
+
     history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: uuid }]));
   };
 

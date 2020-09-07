@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, message, Popconfirm, Row, Table, Tooltip, Typography, Upload } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
+import ReactGa from 'react-ga';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { colLayout, dateFormat } from 'src/components/App';
@@ -61,6 +62,20 @@ export const GameList = (): JSX.Element => {
     const game = generateDemoGame();
     dispatch(addGame(game));
     message.success('Match démo correctement généré');
+
+    ReactGa.event({
+      category: 'All',
+      action: 'Random game generated',
+    });
+  };
+
+  const handleDeleteGame = (id: string): void => {
+    dispatch(deleteGame(id));
+
+    ReactGa.event({
+      category: 'All',
+      action: 'Game deleted',
+    });
   };
 
   const columns = [
@@ -117,7 +132,7 @@ export const GameList = (): JSX.Element => {
           <Tooltip title="supprimer le match">
             <Popconfirm
               title={'sûr ?'}
-              onConfirm={(): any => dispatch(deleteGame(game.id))}
+              onConfirm={(): any => handleDeleteGame(game.id)}
               okText="Oui"
               cancelText="Non en fait"
             >
