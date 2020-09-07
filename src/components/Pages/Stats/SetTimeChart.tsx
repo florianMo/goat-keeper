@@ -52,7 +52,7 @@ export const SetTimeChart: React.FC<SetTimeChartProps> = (props: SetTimeChartPro
   const yTicks = props.isFifthSet ? [0, 5, 10, 15] : [0, 5, 10, 15, 20, 25];
 
   const getScoreColor = (d: any): string =>
-    d.t1Score > d.t2Score ? lime[3] : d.t1Score < d.t2Score ? red[3] : blue[3];
+    d.t1Score > d.t2Score ? lime[1] : d.t1Score < d.t2Score ? red[1] : blue[1];
 
   const areas = [{ x1: data[0].time, x2: data[1].time, fill: getScoreColor(data[0]) }];
   for (let i = 1; i < data.length - 1; i++) {
