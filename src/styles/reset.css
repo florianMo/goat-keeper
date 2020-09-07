@@ -31,3 +31,9 @@ button.link {
 button svg {
   margin-right: 8px;
 }
+
+@media screen and (max-width: 500px) {
+  h2.ant-typography {
+    font-size: 18px !important;
+  }
+}

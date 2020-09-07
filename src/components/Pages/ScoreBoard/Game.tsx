@@ -155,6 +155,10 @@ const StyledGame = styled.div`
     width: 100%;
     justify-content: center;
     font-size: 24px;
+
+    @media screen and (max-width: 500px) {
+      font-size: 16px;
+    }
   }
 
   .setSelector {
@@ -170,6 +174,11 @@ const StyledGame = styled.div`
 
     span {
       font-size: 40px;
+
+      @media screen and (max-width: 500px) {
+        font-size: 30px;
+      }
+
       flex: 0 0 50%;
       padding: 0 8px;
       white-space: nowrap;

@@ -127,7 +127,6 @@ export const NewGame = (): JSX.Element => {
 
                         <Form.Item className="add-player">
                           <Button
-                            block
                             type="dashed"
                             onClick={(): void => {
                               add();
@@ -143,7 +142,7 @@ export const NewGame = (): JSX.Element => {
                 </Form.List>
 
                 <Form.Item>
-                  <Button block type="primary" htmlType="submit" size="large">
+                  <Button type="primary" htmlType="submit" size="large">
                     OK
                   </Button>
                 </Form.Item>
@@ -161,10 +160,10 @@ const StyledNewGame = styled.div`
 
   .ant-space {
     display: flex;
-    width: 100%;
+    max-width: 400px;
 
     .ant-space-item:nth-child(1) {
-      width: 50%;
+      width: 100%;
     }
 
     svg.fa-trash {
@@ -176,6 +175,10 @@ const StyledNewGame = styled.div`
         color: ${red[6]};
       }
     }
+  }
+
+  .ant-input {
+    max-width: 300px;
   }
 
   .add-player svg.fa-plus {

@@ -92,13 +92,9 @@ export const GameStats = (): JSX.Element => {
                 >
                   Équipe
                 </Button>
-
-                <SetMultipleSelector
-                  game={game}
-                  selectedSets={selectedSets}
-                  onSetsChanged={handleSelectedSetsChanged}
-                />
               </div>
+
+              <SetMultipleSelector game={game} selectedSets={selectedSets} onSetsChanged={handleSelectedSetsChanged} />
             </Col>
           </Row>
           <Row gutter={16}>
@@ -126,7 +122,9 @@ export const GameStats = (): JSX.Element => {
                   />
                 ))}
               </div>
-              <TeamTableStats playerStats={getPlayerStats()} />
+              <div className="table-wrapper">
+                <TeamTableStats playerStats={getPlayerStats()} />
+              </div>
             </Col>
           </Row>
         </StyledGameStats>
@@ -161,5 +159,9 @@ const StyledGameStats = styled.div`
     > * {
       margin-right: 8px;
     }
+  }
+
+  .table-wrapper {
+    overflow-x: scroll;
   }
 `;

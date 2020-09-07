@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, message, Popconfirm, Row, Table, Tooltip, Typography, Upload } from 'antd';
+import { Breakpoint } from 'antd/lib/_util/responsiveObserve';
 import dayjs from 'dayjs';
 import React from 'react';
 import ReactGa from 'react-ga';
@@ -95,10 +96,15 @@ export const GameList = (): JSX.Element => {
       sorter: (game1: Game, game2: Game): number => (dayjs(game1.at).isBefore(game2.at) ? -1 : 1),
       render: (game: Game): string => dayjs(game.at).format(dateFormat),
     },
-    { title: 'Résultat', render: (game: Game): JSX.Element => <SetResults game={game} /> },
+    {
+      title: 'Résultat',
+      responsive: ['md'] as Breakpoint[],
+      render: (game: Game): JSX.Element => <SetResults game={game} />,
+    },
     {
       title: 'Evts',
       sorter: (game1: Game, game2: Game): number => (countEvents(game1) > countEvents(game2) ? -1 : 1),
+      responsive: ['md'] as Breakpoint[],
       render: countEvents,
     },
     {
@@ -225,8 +231,9 @@ const StyledGameList = styled.div`
   .buttons {
     margin-bottom: 8px;
 
-    > * {
+    .ant-btn {
       margin-right: 8px;
+      margin-bottom: 8px;
     }
   }
 

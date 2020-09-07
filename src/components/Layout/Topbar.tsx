@@ -38,6 +38,10 @@ const StyledTopbar = styled.div`
   height: 80px;
   background: linear-gradient(to right, ${cyan[9]}, ${cyan[6]});
 
+  @media screen and (max-width: 500px) {
+    height: 60px;
+  }
+
   > span {
     color: white;
   }
@@ -54,11 +58,15 @@ const StyledTopbar = styled.div`
       width: 30px;
       margin-left: 15px;
     }
+
+    @media screen and (max-width: 500px) {
+      font-size: 15px;
+    }
   }
 
   .actions svg {
     color: white;
-    margin-right: 24px;
+    margin-right: 14px;
     cursor: pointer;
     transition: 0.3s ease-in-out;
 
