@@ -1,9 +1,22 @@
 /* eslint-disable react/display-name */
 import { cyan, red } from '@ant-design/colors';
-import { faArrowLeft, faChartLine, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faChartLine, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Col, Form, Input, InputNumber, message, Popconfirm, Row, Table, Tooltip, Typography } from 'antd';
-import React from 'react';
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Popconfirm,
+  Row,
+  Table,
+  Tooltip,
+  Typography,
+} from 'antd';
+import React, { useState } from 'react';
 import ReactGa from 'react-ga';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -29,6 +42,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
   const history = useHistory();
   const game = useSelector((state: RootState) => state.games.entities[id]);
   const [form] = Form.useForm();
+  const [createPlayerVisible, setCreatePlayerVisible] = useState(false);
 
   const handleAddPlayer = (player: Player): void => {
     if (game.team1.players.some((p) => p.name === player.name && p.number === player.number)) {
@@ -67,7 +81,7 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
             okText="Oui"
             cancelText="Non en fait"
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <a>Supprimer</a>
           </Popconfirm>
         </Tooltip>
       ),
@@ -100,6 +114,9 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
                   >
                     Statistiques
                   </Button>
+                  <Button icon={<FontAwesomeIcon icon={faPlus} />} onClick={(): void => setCreatePlayerVisible(true)}>
+                    Ajouter un joueur
+                  </Button>
                 </div>
 
                 <Table
@@ -111,37 +128,53 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
                   columns={columns}
                   pagination={false}
                 ></Table>
-
-                <Form form={form} layout="horizontal" onFinish={handleAddPlayer}>
-                  <Form.Item
-                    name="name"
-                    label="Nom"
-                    rules={[{ required: true, message: 'requis' }]}
-                    validateTrigger={['onChange', 'onBlur']}
-                  >
-                    <Input placeholder="nouveau joueur" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="number"
-                    label="Numéro"
-                    rules={[{ required: true, message: 'requis' }]}
-                    validateTrigger={['onChange', 'onBlur']}
-                  >
-                    <InputNumber />
-                  </Form.Item>
-
-                  <Form.Item className="button">
-                    <Button type="primary" htmlType="submit">
-                      OK
-                    </Button>
-                  </Form.Item>
-                </Form>
               </Col>
             </Row>
           </StyledTeamTable>
         )}
       </div>
+
+      <Modal
+        title="Ajouter un joueur"
+        visible={createPlayerVisible}
+        cancelText="Annuler"
+        onOk={(): void => {
+          form
+            .validateFields()
+            .then((values) => {
+              form.resetFields();
+              handleAddPlayer(values as Player);
+              setCreatePlayerVisible(false);
+              message.success('Joueur créé');
+            })
+            .catch((info) => {
+              console.warn('Validate Failed:', info);
+            });
+        }}
+        onCancel={(): void => {
+          setCreatePlayerVisible(false);
+        }}
+      >
+        <Form form={form} layout="horizontal" labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
+          <Form.Item
+            name="name"
+            label="Nom"
+            rules={[{ required: true, message: 'requis' }]}
+            validateTrigger={['onChange', 'onBlur']}
+          >
+            <Input placeholder="nouveau joueur" />
+          </Form.Item>
+
+          <Form.Item
+            name="number"
+            label="Numéro"
+            rules={[{ required: true, message: 'requis' }]}
+            validateTrigger={['onChange', 'onBlur']}
+          >
+            <InputNumber min={1} />
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };
