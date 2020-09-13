@@ -15,7 +15,7 @@ export const TeamTableStats: React.FC<TeamTableStatsProps> = (props: TeamTableSt
   const columns: ColumnsType = [
     {
       title: '#',
-      className: 'fit-content',
+      className: 'fit-content text-align-center',
       render: (stat: any): string => stat.key.split(':')[1],
       sorter: (a: any, b: any): number =>
         parseInt(a.key.split(':')[1], 10) > parseInt(b.key.split(':')[1], 10) ? 1 : -1,
@@ -105,5 +105,9 @@ const StyledTeamTableStats = styled.div`
   .fit-content {
     width: 1%;
     white-space: nowrap;
+  }
+
+  .text-align-center {
+    text-align: center;
   }
 `;

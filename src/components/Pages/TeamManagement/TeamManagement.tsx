@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { cyan, red } from '@ant-design/colors';
-import { faArrowLeft, faChartLine, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faChartLine, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
@@ -26,6 +26,7 @@ import { GameUrlParams } from 'src/components/Pages/ScoreBoard/Game';
 import { Game } from 'src/models/game';
 import { Player } from 'src/models/player';
 import { buildUrl, Urls } from 'src/routing';
+import { Breadcrumb } from 'src/Shared/Breadcrumb';
 import { addPlayer, deletePlayer } from 'src/store/slices/gameSlice';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
@@ -97,7 +98,10 @@ export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => 
           <StyledTeamTable>
             <Row gutter={16}>
               <Col {...colLayout}>
-                <Title level={2}>Gérer mon équipe</Title>
+                <Breadcrumb id={game.id} />
+                <Title level={2} className="page-title">
+                  Gérer mon équipe
+                </Title>
 
                 <div className="buttons">
                   <Button

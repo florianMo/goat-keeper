@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name */
-import { cyan, red } from '@ant-design/colors';
 import {
   faChartLine,
   faFileExport,
@@ -8,6 +7,7 @@ import {
   faRandom,
   faSearch,
   faTrash,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Col, message, Popconfirm, Row, Table, Tooltip, Typography, Upload } from 'antd';
@@ -27,7 +27,7 @@ import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 export const GameList = (): JSX.Element => {
   const history = useHistory();
@@ -72,6 +72,7 @@ export const GameList = (): JSX.Element => {
 
   const handleDeleteGame = (id: string): void => {
     dispatch(deleteGame(id));
+    message.success('Match supprimé');
 
     ReactGa.event({
       category: 'All',
@@ -111,29 +112,43 @@ export const GameList = (): JSX.Element => {
       key: 'actions',
       className: 'actions fit-content',
       render: (game: Game): JSX.Element => (
-        <>
-          <Tooltip title="editer le score et les stats">
-            <FontAwesomeIcon
-              icon={faSearch}
-              size="lg"
+        <div>
+          <Tooltip title="éditer le score et les stats">
+            <Button
+              type="primary"
+              shape="circle"
               onClick={(): void => history.push(buildUrl(Urls.GAME, [{ parameter: 'id', value: game.id }]))}
-            />
+            >
+              <FontAwesomeIcon icon={faSearch} />
+            </Button>
+          </Tooltip>
+          <Tooltip title="gérer l'équipe">
+            <Button
+              type="primary"
+              shape="circle"
+              onClick={(): void => history.push(buildUrl(Urls.TEAM_MANAGEMENT, [{ parameter: 'id', value: game.id }]))}
+            >
+              <FontAwesomeIcon icon={faUsers} />
+            </Button>
           </Tooltip>
           <Tooltip title="visualiser les données du match">
-            <FontAwesomeIcon
-              icon={faChartLine}
-              size="lg"
+            <Button
+              type="primary"
+              shape="circle"
               onClick={(): void => history.push(buildUrl(Urls.GAME_STATS, [{ parameter: 'id', value: game.id }]))}
-            />
+            >
+              <FontAwesomeIcon icon={faChartLine} />
+            </Button>
           </Tooltip>
           <Tooltip title="exporter les données du match">
-            <a
-              className="download"
-              href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(game))}`}
-              download={getFileName(game)}
-            >
-              <FontAwesomeIcon icon={faFileExport} size="lg" />
-            </a>
+            <div className="download">
+              <a
+                href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(game))}`}
+                download={getFileName(game)}
+              >
+                <FontAwesomeIcon icon={faFileExport} />
+              </a>
+            </div>
           </Tooltip>
           <Tooltip title="supprimer le match">
             <Popconfirm
@@ -142,10 +157,12 @@ export const GameList = (): JSX.Element => {
               okText="Oui"
               cancelText="Non en fait"
             >
-              <FontAwesomeIcon icon={faTrash} size="lg" />
+              <Button type="primary" shape="circle" danger>
+                <FontAwesomeIcon icon={faTrash} />
+              </Button>
             </Popconfirm>
           </Tooltip>
-        </>
+        </div>
       ),
     },
   ];
@@ -157,7 +174,40 @@ export const GameList = (): JSX.Element => {
       <StyledGameList>
         <Row>
           <Col {...colLayout}>
-            <Title level={2}>Matchs enregistrés sur ce navigateur</Title>
+            <Paragraph>
+              Goat keeper vous permet de noter le score est les évenements de jeu d'un match de volleyball, puis de
+              visualiser graphiquement les statistiques de ce match, set par set et joueur par joueur. Les données sont
+              enregistrées dans la mémoire du navigateur, et peuvent être exportées sous la forme d'un fichier puis
+              importées sur une autre machine.
+            </Paragraph>
+
+            <Paragraph>
+              Les événements de jeu sont le service, la récéption, la passe, l'attaque, le block, la défense et l'ace.
+              Ils peuvent être réussis (boutons verts) ou ratés (boutons rouges), et sont liés à un joueur.
+            </Paragraph>
+
+            <Paragraph>
+              Les données sont enregistrées dans la mémoire du navigateur. Elles peuvent être exportées sous la forme
+              d'un fichier puis importées et visualisées sur une autre machine.
+            </Paragraph>
+
+            <Paragraph>
+              Pour avoir un aperçu rapide de l'interface et des visualisations, vous pouvez
+              <a onClick={handleGenerateDemoGame}> générer un match démo </a>
+              aléatoire puis aller sur sa table de marque (<FontAwesomeIcon icon={faSearch} />
+              ), visualiser ses statistiques (<FontAwesomeIcon icon={faChartLine} />
+              ), voir et éditer la liste des joueurs de l'équipe (<FontAwesomeIcon icon={faUsers} />
+              ), exporter les données pour les communiquer à quelqu'un d'autre (<FontAwesomeIcon icon={faFileExport} />
+              ), importer un match ayant été suivi sur un autre ordinateur (<FontAwesomeIcon icon={faFileImport} />) ou
+              supprimer ce match (<FontAwesomeIcon icon={faTrash} />
+              ). Vous pouvez également <a onClick={(): void => history.push(Urls.NEW_GAME)}>créer un nouveau match</a>,
+              entrer les noms des équipes et des joueurs de votre équipe, et commencer à noter le score et les
+              événements de jeu.
+            </Paragraph>
+
+            <Title level={2} className="page-title">
+              Matchs enregistrés sur ce navigateur
+            </Title>
             <div className="buttons">
               <Button
                 type="primary"
@@ -207,18 +257,37 @@ const StyledGameList = styled.div`
     }
   }
 
-  .actions {
-    svg {
-      cursor: pointer;
+  .actions div {
+    display: flex;
+
+    button {
       margin-right: 8px;
-      transition: 0.3s all;
+
+      svg {
+        margin-right: 0 !important;
+      }
+    }
+
+    .download {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border-radius: 16px;
+      margin-right: 8px;
+      color: white;
+      background-color: #00474f;
+      cursor: pointer;
 
       &:hover {
-        color: ${cyan[8]};
+        background-color: #006d75;
       }
 
-      &[data-icon='trash']:hover {
-        color: ${red[5]};
+      a {
+        color: white;
+      }
+
+      svg {
+        margin: 8px 0px 0px 10px;
       }
     }
   }
@@ -240,9 +309,5 @@ const StyledGameList = styled.div`
   .disabled {
     opacity: 0.5;
     cursor: not-allowed !important;
-  }
-
-  a.download {
-    color: rgba(0, 0, 0, 0.65);
   }
 `;

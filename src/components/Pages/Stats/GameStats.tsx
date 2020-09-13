@@ -15,6 +15,7 @@ import { TeamStats } from 'src/components/Pages/Stats/TeamStats';
 import { TeamTableStats } from 'src/components/Pages/Stats/TeamTableStats';
 import { GameEvent, gameEvents, getKey, getSetDuration, getTotalDuration, Player } from 'src/models';
 import { buildUrl, Urls } from 'src/routing';
+import { Breadcrumb } from 'src/Shared/Breadcrumb';
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
@@ -60,7 +61,7 @@ export const GameStats = (): JSX.Element => {
   };
 
   const setsInfo = (): string => {
-    return selectedSets.length === 5 ? '(match complet)' : '(sets ' + selectedSets.map((s) => s[4]).join(',') + ')';
+    return selectedSets.length === 5 ? '(match complet)' : '(sets ' + selectedSets.map((s) => s[4]).join(', ') + ')';
   };
 
   return (
@@ -71,7 +72,8 @@ export const GameStats = (): JSX.Element => {
         <StyledGameStats>
           <Row>
             <Col>
-              <Title level={2}>
+              <Breadcrumb id={game.id} />
+              <Title level={2} className="page-title">
                 {game.team1.name} vs {game.team2.name}, le {dayjs(game.at).format(dateFormat)} (
                 {getTotalDuration(game) + ' minutes'})
               </Title>
