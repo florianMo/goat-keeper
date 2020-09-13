@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { colLayout } from 'src/components/App';
 import { Topbar } from 'src/components/Layout/Topbar';
+import { GameUrlParams } from 'src/components/Pages/ScoreBoard/Game';
 import { Game } from 'src/models/game';
 import { Player } from 'src/models/player';
 import { buildUrl, Urls } from 'src/routing';
@@ -23,7 +24,7 @@ interface TeamManagementProps {
 }
 
 export const TeamManagement: React.FC<TeamManagementProps> = (): JSX.Element => {
-  const { id } = useParams();
+  const { id } = useParams<GameUrlParams>();
   const dispatch = useDispatch();
   const history = useHistory();
   const game = useSelector((state: RootState) => state.games.entities[id]);

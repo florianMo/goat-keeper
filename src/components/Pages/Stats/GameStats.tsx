@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { dateFormat } from 'src/components/App';
 import { Topbar } from 'src/components/Layout/Topbar';
+import { GameUrlParams } from 'src/components/Pages/ScoreBoard/Game';
 import { PlayerRadar } from 'src/components/Pages/Stats/PlayerRadar';
 import { SetMultipleSelector } from 'src/components/Pages/Stats/SetMultipleSelector';
 import { SetTimeChart } from 'src/components/Pages/Stats/SetTimeChart';
@@ -20,7 +21,7 @@ import styled from 'styled-components';
 const { Title } = Typography;
 
 export const GameStats = (): JSX.Element => {
-  const { id } = useParams();
+  const { id } = useParams<GameUrlParams>();
   const history = useHistory();
   const [selectedSets, setSelectedSets]: [string[], any] = useState([]);
   const game = useSelector((state: RootState) => state.games.entities[id]);

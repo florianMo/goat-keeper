@@ -28,8 +28,12 @@ import {
 import { RootState } from 'src/store/store';
 import styled from 'styled-components';
 
+export interface GameUrlParams {
+  id: string;
+}
+
 export const Game = (): JSX.Element => {
-  const { id } = useParams();
+  const { id } = useParams<GameUrlParams>();
   const history = useHistory();
   const game = useSelector((state: RootState) => state.games.entities[id]);
   const dispatch = useDispatch();

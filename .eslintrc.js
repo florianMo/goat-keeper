@@ -1,39 +1,35 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true
+    es6: true,
   },
   extends: [
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier/@typescript-eslint',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: 'module'
+    sourceType: 'module',
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-    'simple-import-sort',
-    'import',
-  ],
+  plugins: ['react', '@typescript-eslint', 'simple-import-sort', 'import'],
   rules: {
     'react/prop-types': 0,
     'react/jsx-uses-vars': 1,
     'react/jsx-uses-react': 1,
-    '@typescript-eslint/no-use-before-define': 'off',
+    'no-use-before-define': ['error', { variables: false }],
+    '@typescript-eslint/no-use-before-define': ['error', { variables: false }],
     '@typescript-eslint/no-explicit-any': 'off',
-    'no-console': 'error',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'simple-import-sort/sort': 'error',
     'sort-imports': 'off',
     'import/order': 'off',
@@ -47,7 +43,7 @@ module.exports = {
   },
   settings: {
     react: {
-      version: 'detect'
-    }
-  }
-}
+      version: 'detect',
+    },
+  },
+};
